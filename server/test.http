@@ -11,5 +11,28 @@ Content-Type: image/jpeg
 Content-Disposition: form-data; name="album"
 Content-Type: text/plain
 
-aaaee
+12344123asd
 ------FormBoundary1234
+###
+
+GET http://localhost:3000/api/photos HTTP/1.1
+
+###
+
+GET http://localhost:3000/api/photos/168046649187510408 HTTP/1.1
+
+
+###
+
+PATCH http://localhost:3000/api/photos HTTP/1.1
+Content-Disposition: form-data; name="data"
+Content-Type: application/json
+
+{
+  "id": 168046778431410084,
+  "lastChange": "aedasdeasdee"
+}
+
+###
+
+DELETE http://localhost:3000/api/photos/168046859969715389 HTTP/1.1

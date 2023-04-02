@@ -7,9 +7,7 @@ const mainPath = path.join(__dirname, "../");
 module.exports = {
     uploadFle(req){
         const form = formidable({ multiples: true });
-       
             return new Promise((resolve, reject) => {
-
                 form.parse(req, (err, fields, files) => {
                     //CREATE ALBUM IF NOT EXISTS
                     let dir = `./uploads/${fields.album}`
@@ -18,10 +16,6 @@ module.exports = {
                     }
         
                     let file = files.file;
-                    //ZAPIS PLIKU NA SERWER NA FOLDER dir (NAZWA ALBUMU)
-        
-
-
                     try {
                         let newFileName = file.path.split("\\");
                         newFileName = newFileName[newFileName.length - 1];
@@ -34,12 +28,21 @@ module.exports = {
                                 console.log(err);
                                 reject("file system error")
                             }else{
-                                console.log("g");
-                                resolve({
-                                    originalName: file.name,
-                                    url: newPath,
-                                    album: fields.album
+                                fs.stat(newPath, (err, stats) => {
+                                    if(err){
+                                        console.log(err);
+                                        reject("file system error")
+                                    }else{
+                                        resolve({
+                                            originalName: file.name,
+                                            url: newPath,
+                                            album: fields.album,
+                                            timestamp: stats.birthtime
+                                        })
+                                    }
+                                   
                                 })
+                                
                             }
                         })
                       } catch (error) {
@@ -49,6 +52,16 @@ module.exports = {
 
             })
           });
+    },
+    deleteFile: (fileURL)=>{
+        return new Promise((resolve, reject) => {
+            fs.unlink(fileURL, (err)=>{
+                if(err){
+                    reject(false)
+                }
+                resolve(true)
+            })
+        })
     }
 
 }

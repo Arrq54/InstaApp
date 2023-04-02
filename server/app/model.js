@@ -1,5 +1,5 @@
 class Photo {
-    constructor(id, album, originalName, url, lastChange, lastModifiedDate) {
+    constructor(id, album, originalName, url, lastChange, timestamp) {
         this.id = id;
         this.album = album;
         this.originalName = originalName;
@@ -8,9 +8,11 @@ class Photo {
         this.history = [
             {
                 status: "original",
-                lastModifiedDate: lastModifiedDate
+                timestamp: timestamp
             }
         ]
+
+        photosArray.push(this);
     }
     
 
