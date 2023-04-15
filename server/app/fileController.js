@@ -19,7 +19,10 @@ module.exports = {
                     try {
                         let newFileName = file.path.split("\\");
                         newFileName = newFileName[newFileName.length - 1];
-                        var newPath =  mainPath +"/"+dir+ '/'+newFileName+".jpg"
+
+                        let ext = file.name.split(".")[1]
+
+                        var newPath =  mainPath +"/"+dir+ '/'+newFileName + "."+ext
         
                         var rawData = fs.readFileSync(file.path)
         

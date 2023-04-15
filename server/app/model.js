@@ -11,8 +11,19 @@ class Photo {
                 timestamp: timestamp
             }
         ]
+        this.tags = []
 
         photosArray.push(this);
+    }
+    async addTag(tag){
+        return new Promise((resolve, reject) => {
+            this.tags.push(tag)
+            resolve()
+        })
+    }
+    setTags(tags){
+        console.log(tags);
+        this.tags = tags
     }
     
 
@@ -20,4 +31,16 @@ class Photo {
 
 let photosArray = []
 
-module.exports = { Photo, photosArray };
+
+class Tag{
+    constructor(id, name, popularity){
+        this.id = id;
+        this.name = name;
+        this.popularity = popularity;
+        tagsArray.push(this)
+    }
+}
+let tagsArray = []
+
+
+module.exports = { Photo, photosArray, Tag, tagsArray };

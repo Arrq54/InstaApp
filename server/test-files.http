@@ -1,0 +1,62 @@
+POST http://localhost:3000/api/photos HTTP/1.1
+Content-Type: multipart/form-data; boundary=----FormBoundary1234
+
+------FormBoundary1234
+Content-Disposition: form-data; name="file"; filename="input.jpg"
+Content-Type: image/jpeg
+
+< ./input.jpg
+
+------FormBoundary1234
+Content-Disposition: form-data; name="album"
+Content-Type: text/plain
+
+12344123asd
+------FormBoundary1234
+###
+
+GET http://localhost:3000/api/photos HTTP/1.1
+
+###
+
+GET http://localhost:3000/api/photos/16812915574136312 HTTP/1.1
+
+
+###
+
+PATCH http://localhost:3000/api/photos HTTP/1.1
+Content-Disposition: form-data; name="data"
+Content-Type: application/json
+
+{
+  "id": 168046778431410084,
+  "lastChange": "aedasdeasdee"
+}
+
+###
+
+DELETE http://localhost:3000/api/photos/168046859969715389 HTTP/1.1
+
+
+###
+
+PATCH http://localhost:3000/api/photos/tags/mass HTTP/1.1
+Content-Disposition: form-data; name="data"
+Content-Type: application/json
+
+{
+  "photoid": 16812915574136312,
+  "ids": [1,2, 11]
+}
+###
+
+DELETE http://localhost:3000/api/photos/tags HTTP/1.1
+Content-Disposition: form-data; name="data"
+Content-Type: application/json
+
+{
+  "photoid": 16812915574136312,
+  "tagid": 111
+}
+###
+
