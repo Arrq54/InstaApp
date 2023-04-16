@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="mainBlack">#FF333333</color>
+    <color name="mainWhite">#FFF5F5F5</color>
+
 </resources>
