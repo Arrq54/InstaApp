@@ -1,17 +1,25 @@
 package com.example.client;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.example.client.databinding.ActivityMainBinding;
+import com.example.client.model.IpAddress;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -100,6 +108,33 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     break;
+                case R.id.ip:
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("Change ip");
+
+                    final EditText input = new EditText(this);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    input.setText(IpAddress.ip);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String userInput = input.getText().toString();
+                            IpAddress.ip = userInput;
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    break;
             }
 
             return true;
@@ -123,4 +158,10 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.root, fragment, tag)
                 .commit();
     }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Log.d("logdev", String.valueOf(requestCode));
+//    }
 }

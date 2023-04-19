@@ -45,7 +45,7 @@ Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
 {
-  "photoid": 16812915574136312,
+  "photoid": 168171120761110038,
   "ids": [1,2, 11]
 }
 ###
@@ -55,7 +55,7 @@ Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
 {
-  "photoid": 16812915574136312,
+  "photoid": 168171120761110038,
   "tagid": 111
 }
 ###

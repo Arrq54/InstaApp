@@ -1,0 +1,23 @@
+###
+
+GET http://localhost:3000/api/filters/metadata/168171249543119009 HTTP/1.1
+
+###
+
+PATCH http://localhost:3000/api/filters HTTP/1.1
+Content-Disposition: form-data; name="data"
+Content-Type: application/json
+
+{
+  "id": 168171441614214552,
+  "filterType": "negate",
+  "dimensions": {
+    "width": 150,
+    "height": 1000
+  },
+  "tint": {
+    "r": 255,
+    "g": 0, 
+    "b": 0
+    }
+}
