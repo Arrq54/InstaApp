@@ -1,9 +1,11 @@
 const jsonController = require("./jsonController.js")
 const fileController = require("./fileController.js")
-
+const fs = require('fs');
+const path = require('path')
 const model = require("./model.js")
 const imageRouter = async (req, res) => {
     res.writeHead(200, { "content-type": "application/json;charset=utf-8" })
+
     if(req.url == "/api/photos" && req.method == "GET"){
        
         //ALL PHOTOS
@@ -11,7 +13,17 @@ const imageRouter = async (req, res) => {
         res.end(JSON.stringify(jsonController.getAllPhotos()))
 
 
-    }else if(req.url == "/api/photos" && req.method == "POST"){
+    }else if(req.url.match(/\/api\/photos\/getfile\/([0-9]+)/) && req.method == "GET"){
+       
+        let photo = jsonController.getPhotoById(req.url.split("/")[4])
+        fs.readFile(path.resolve(__dirname, `..${photo.url}`), function (error, data) {
+            res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+            res.write(data);
+            res.end();
+        })
+
+    }
+    else if(req.url == "/api/photos" && req.method == "POST"){
 
         //ADD PHOTO
 
@@ -66,7 +78,9 @@ const imageRouter = async (req, res) => {
 
             res.end(JSON.stringify(await jsonController.deleteTagFromPhoto(req)))
         
+    }else if(req.url.match(/\/api\/photos\/([a-zA-Z]+)/) && req.method == "GET"){
+        
+        res.end(JSON.stringify(await jsonController.getPhotosByAlbum(req.url.split("/")[3])))
     }
 }
-
 module.exports = imageRouter

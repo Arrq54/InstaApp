@@ -1,4 +1,4 @@
-package com.example.client;
+package com.example.client.view;
 
 import android.app.Activity;
 import android.content.Intent;

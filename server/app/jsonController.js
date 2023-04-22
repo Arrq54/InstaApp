@@ -1,14 +1,26 @@
 const model = require("./model.js")
 const formidable = require('formidable');
 const form = formidable({ multiples: true });
-const tagsController = require("./tagsController")
+const fs = require('fs');
+const tagsController = require("./tagsController");
+const path = require('path');
 const  generateId = ()=>{
     return String(Date.now()) +Math.floor(Math.random() * 20001);
 }
 module.exports = {
 
+    loadDefault: ()=>{
+        fs.readdir("./uploads/default", (err, files) => {
+            files.forEach(file => {
+                new model.Photo(generateId(), "defualt", file, ("/uploads" + path.resolve(__dirname, `../uploads/default/${file}`).split("uploads")[1]).replaceAll("\\","/"), "original", "")
+            });
+          });
+          return "";
+    },
+
     createNewPhoto: (data)=>{
         //new photo
+        console.log(data.url);
         return new model.Photo(generateId(), data.album, data.originalName, data.url, "original", data.timestamp)
     },
     getAllPhotos: ()=>{
@@ -97,4 +109,7 @@ module.exports = {
        
 
     },
+    getPhotosByAlbum: (album)=>{
+        return model.photosArray.filter((i)=>{return i.album == album});
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.client;
+package com.example.client.view;
 
 import android.os.Bundle;
 
@@ -9,23 +9,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.client.databinding.FragmentSearchBinding;
-import com.example.client.databinding.FragmentUserProfileBinding;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link Search#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class Search extends Fragment {
 
-public class UserProfile extends Fragment {
-
-    private FragmentUserProfileBinding userProfileBinding;
+    private FragmentSearchBinding searchBinding;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        userProfileBinding = FragmentUserProfileBinding.inflate(getLayoutInflater());
+        searchBinding = FragmentSearchBinding.inflate(getLayoutInflater());
 
-        return userProfileBinding.getRoot();
-
-
-
+        return searchBinding.getRoot();
     }
 }

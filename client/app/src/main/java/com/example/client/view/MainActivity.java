@@ -1,6 +1,5 @@
-package com.example.client;
+package com.example.client.view;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
@@ -8,16 +7,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.example.client.R;
 import com.example.client.databinding.ActivityMainBinding;
 import com.example.client.model.IpAddress;
 
@@ -28,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Home homeFragment;
     private AddPhoto addPhotoFragment;
     private Search searchFragment;
+    private UserProfile userProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new Home();
         addPhotoFragment = new AddPhoto();
         searchFragment = new Search();
-
+        userProfile = new UserProfile();
 
         replaceFragment(homeFragment, "home");
 
@@ -60,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         mainBinding.bottomNav.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
                 case R.id.home:
+                    mainBinding.profile.setImageResource(R.drawable.user);
                     if(previouslySelected.get()!=null &&  previouslySelected.get().getItemId() == R.id.add){
                         previouslySelected.get().setIcon(R.drawable.addphoto);
                     }
@@ -69,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     item.setIcon(R.drawable.homechosen);
                     break;
                 case R.id.search:
+                    mainBinding.profile.setImageResource(R.drawable.user);
                     if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.home){
                         previouslySelected.get().setIcon(R.drawable.home);
                     }else if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.add){
@@ -79,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.add:
+                    mainBinding.profile.setImageResource(R.drawable.user);
                     if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.home){
                         previouslySelected.get().setIcon(R.drawable.home);
                     }
@@ -148,6 +148,17 @@ public class MainActivity extends AppCompatActivity {
         //OPEN DRAWER ON SETTINGS CLICK
         mainBinding.settings.setOnClickListener(view->{
             mainBinding.drawer.openDrawer(GravityCompat.START);
+        });
+
+
+        mainBinding.profile.setOnClickListener(view->{
+            mainBinding.profile.setImageResource(R.drawable.userchosen);
+            if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.home){
+                previouslySelected.get().setIcon(R.drawable.home);
+            }else if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.add){
+                previouslySelected.get().setIcon(R.drawable.addphoto);
+            }
+            replaceFragment(userProfile, "userProfile");
         });
     }
 

@@ -1,3 +1,59 @@
+
+# GET http://localhost:3000/api/photos/default HTTP/1.1
+
+GET http://localhost:3000/api/photos HTTP/1.1
+# ###
+POST http://localhost:3000/api/photos HTTP/1.1
+Content-Type: multipart/form-data; boundary=----FormBoundary1234
+
+------FormBoundary1234
+Content-Disposition: form-data; name="file"; filename="input.jpg"
+Content-Type: image/jpeg
+
+< ./a.jpg
+
+------FormBoundary1234
+Content-Disposition: form-data; name="album"
+Content-Type: text/plain
+
+default
+------FormBoundary1234
+###
+# ###
+POST http://localhost:3000/api/photos HTTP/1.1
+Content-Type: multipart/form-data; boundary=----FormBoundary1234
+
+------FormBoundary1234
+Content-Disposition: form-data; name="file"; filename="input.jpg"
+Content-Type: image/jpeg
+
+< ./b.jpg
+
+------FormBoundary1234
+Content-Disposition: form-data; name="album"
+Content-Type: text/plain
+
+default
+------FormBoundary1234
+###
+# ###
+POST http://localhost:3000/api/photos HTTP/1.1
+Content-Type: multipart/form-data; boundary=----FormBoundary1234
+
+------FormBoundary1234
+Content-Disposition: form-data; name="file"; filename="input.jpg"
+Content-Type: image/jpeg
+
+< ./c.jpg
+
+------FormBoundary1234
+Content-Disposition: form-data; name="album"
+Content-Type: text/plain
+
+default
+------FormBoundary1234
+###
+###
 POST http://localhost:3000/api/photos HTTP/1.1
 Content-Type: multipart/form-data; boundary=----FormBoundary1234
 
@@ -15,7 +71,6 @@ Content-Type: text/plain
 ------FormBoundary1234
 ###
 
-GET http://localhost:3000/api/photos HTTP/1.1
 
 ###
 
@@ -45,7 +100,7 @@ Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
 {
-  "photoid": 168171120761110038,
+  "photoid": 16821839467005883,
   "ids": [1,2, 11]
 }
 ###

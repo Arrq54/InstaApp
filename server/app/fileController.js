@@ -36,6 +36,7 @@ module.exports = {
                                         console.log(err);
                                         reject("file system error")
                                     }else{
+                                        newPath = "/uploads" + newPath.split("uploads")[1]
                                         resolve({
                                             originalName: file.name,
                                             url: newPath,
