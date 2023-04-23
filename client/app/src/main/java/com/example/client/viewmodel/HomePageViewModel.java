@@ -18,13 +18,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ProfilePhotosViewModel extends ViewModel {
+public class HomePageViewModel extends ViewModel {
     private MutableLiveData<List<Photo>> photosList;
-    private String username = "";
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public void setUp(){
         Retrofit retrofit = new Retrofit.Builder()
@@ -34,12 +29,12 @@ public class ProfilePhotosViewModel extends ViewModel {
 
         GetPhotosAPI getPhotosAPI = retrofit.create(GetPhotosAPI.class);
 
-        Log.d("logdev", username);
-        Call<List<Photo>> call = getPhotosAPI.gettAllPhotos(username);
-
+        Call<List<Photo>> call = getPhotosAPI.gettHomePhotos();
+        Log.d("logdev", "aaaaa");
         call.enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
+                Log.d("logdev", response.body().toString());
                 photosList.setValue(response.body());
             }
 
@@ -50,7 +45,7 @@ public class ProfilePhotosViewModel extends ViewModel {
             }
         });
     }
-    public ProfilePhotosViewModel() {
+    public HomePageViewModel() {
         this.photosList = new MutableLiveData<>();
 
     }
@@ -58,7 +53,4 @@ public class ProfilePhotosViewModel extends ViewModel {
     public MutableLiveData<List<Photo>> getObservedPhotos() {
         return photosList;
     }
-
-
-
 }

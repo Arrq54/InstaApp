@@ -158,7 +158,11 @@ public class MainActivity extends AppCompatActivity {
             }else if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.add){
                 previouslySelected.get().setIcon(R.drawable.addphoto);
             }
+            Bundle bundle = new Bundle();
+            bundle.putString("username", "default");
+            getSupportFragmentManager().setFragmentResult("username", bundle);
             replaceFragment(userProfile, "userProfile");
+
         });
     }
 
