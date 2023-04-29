@@ -30,7 +30,6 @@ public class HomePageViewModel extends ViewModel {
         GetPhotosAPI getPhotosAPI = retrofit.create(GetPhotosAPI.class);
 
         Call<List<Photo>> call = getPhotosAPI.gettHomePhotos();
-        Log.d("logdev", "aaaaa");
         call.enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {

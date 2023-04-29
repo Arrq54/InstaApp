@@ -11,4 +11,6 @@
     <color name="mainBlack">#FF333333</color>
     <color name="mainWhite">#FFF5F5F5</color>
 
+    <color name="link">#FF0083ee</color>
+
 </resources>

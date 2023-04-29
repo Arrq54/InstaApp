@@ -43,4 +43,23 @@ class Tag{
 let tagsArray = []
 
 
-module.exports = { Photo, photosArray, Tag, tagsArray };
+class User{
+    constructor(id, name, lastName, email, confirmed, password){
+        this.id = id
+        this.name = name;
+        this.lastName = lastName
+        this.email = email
+        this.confimred = confirmed;
+        this.password = password
+
+        usersArray.push(this)
+   
+    }
+    verify(){
+        this.confimred = true;
+    }
+}
+let usersArray = []
+
+
+module.exports = { Photo, photosArray, Tag, tagsArray, User, usersArray };

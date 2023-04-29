@@ -9,8 +9,8 @@ Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
 {
-  "id": 168171441614214552,
-  "filterType": "negate",
+  "id": 168171463366211758,
+  "filterType": "grayscale",
   "dimensions": {
     "width": 150,
     "height": 1000

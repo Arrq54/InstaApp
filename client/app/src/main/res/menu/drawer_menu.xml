@@ -6,4 +6,7 @@
     <item
         android:id="@+id/ip"
         android:title="CHANGE IP"/>
+    <item
+        android:id="@+id/logoutMenu"
+        android:title="LOG OUT"/>
 </menu>

@@ -1,9 +1,7 @@
-package com.example.client.view;
+package com.example.client;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -12,7 +10,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +17,6 @@ import android.view.ViewGroup;
 
 import com.example.client.databinding.FragmentAddPhotoBinding;
 import com.example.client.databinding.FragmentHomeBinding;
-import com.example.client.model.Imager;
-
-import java.io.IOException;
 
 public class AddPhoto extends Fragment {
 
@@ -45,14 +39,7 @@ public class AddPhoto extends Fragment {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             // There are no request codes
                             Intent data = result.getData();
-                            try {
-                                Imager.bitmap =  MediaStore.Images.Media.getBitmap(AddPhoto.this.getActivity().getContentResolver(), Uri.parse(data.getDataString()));
-                                ((MainActivity)getActivity()).setAddPhotoUpload();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-
+                            Log.d("logdev", data.getDataString());
                             //TODO TUTAJ RETROFIT UPLOAD ZDJECIA ITP
                         }
                     }

@@ -1,8 +1,11 @@
 const http = require('http');
-const PORT  =3000
+
+require('dotenv').config();
+const PORT  = process.env.APP_PORT
 const imageRouter = require("./app/imageRouter")
 const tagsRouter = require("./app/tagsRouter.js")
 const filtersRouter = require("./app/filtersRouter")
+const userRouter = require("./app/userRouter.js")
 http.createServer(async (req, res) => {
     
     //images
@@ -20,6 +23,8 @@ http.createServer(async (req, res) => {
     //filters router
    else if (req.url.search("/api/filters") != -1) {
       await filtersRouter(req, res)
+   }else if (req.url.search("/api/user") != -1) {
+      await userRouter(req, res)
    }
 
 })

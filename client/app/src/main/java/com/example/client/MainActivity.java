@@ -1,5 +1,6 @@
-package com.example.client.view;
+package com.example.client;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
@@ -7,16 +8,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-import com.example.client.R;
 import com.example.client.databinding.ActivityMainBinding;
 import com.example.client.model.IpAddress;
+import com.example.client.view.LoginActivity;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -26,10 +32,13 @@ public class MainActivity extends AppCompatActivity {
     private AddPhoto addPhotoFragment;
     private Search searchFragment;
     private UserProfile userProfile;
-    private AddPhotoUpload addPhotoUpload;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("logdev", "oncccc");
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -44,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
         addPhotoFragment = new AddPhoto();
         searchFragment = new Search();
         userProfile = new UserProfile();
-        addPhotoUpload = new AddPhotoUpload();
 
         replaceFragment(homeFragment, "home");
 
@@ -95,13 +103,10 @@ public class MainActivity extends AppCompatActivity {
             previouslySelected.set(item);
             return true;
         });
-
-
         mainBinding.drawerNav.setNavigationItemSelectedListener(item->{
             mainBinding.drawer.closeDrawer(GravityCompat.START);
 
             int id = item.getItemId();
-
             switch(id){
                 case R.id.thememode:
                     if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
@@ -110,6 +115,17 @@ public class MainActivity extends AppCompatActivity {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     }
 
+                    break;
+                case R.id.logoutMenu:
+                    Log.d("logdev", "log out");
+                    SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("username");
+                    editor.remove("token");
+                    editor.apply();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
                 case R.id.ip:
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -138,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
                     dialog.show();
 
                     break;
+
+                default:break;
             }
 
             return true;
@@ -161,14 +179,8 @@ public class MainActivity extends AppCompatActivity {
             }else if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.add){
                 previouslySelected.get().setIcon(R.drawable.addphoto);
             }
-            Bundle bundle = new Bundle();
-            bundle.putString("username", "default");
-            getSupportFragmentManager().setFragmentResult("username", bundle);
             replaceFragment(userProfile, "userProfile");
-
         });
-
-
     }
 
     public void replaceFragment(Fragment fragment, String tag) {
@@ -176,13 +188,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.root, fragment, tag)
-                .commit();
-    }
-
-    public void setAddPhotoUpload(){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.root, addPhotoUpload, "addphotoupload")
                 .commit();
     }
 

@@ -51,7 +51,7 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
             super(itemView);
             img = itemView.findViewById(R.id.photo);
 
-            itemView.findViewById(R.id.homePagePost).setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,2000));;
+            itemView.findViewById(R.id.homePagePost).setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,1950));;
 
 //            img.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
         }
