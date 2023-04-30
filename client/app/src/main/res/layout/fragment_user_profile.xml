@@ -64,6 +64,7 @@
                             android:fontFamily="@font/nunitosans_bold"
                             android:layout_gravity="center"
                             android:textSize="18dp"
+                            android:id="@+id/username"
                             android:layout_marginLeft="30dp"
                             android:gravity="center"/>
                     </LinearLayout>

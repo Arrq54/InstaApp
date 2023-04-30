@@ -7,16 +7,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.client.R;
 import com.example.client.databinding.ActivityMainBinding;
 import com.example.client.model.IpAddress;
+import com.example.client.model.UserData;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
 
 
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -138,6 +142,14 @@ public class MainActivity extends AppCompatActivity {
                     dialog.show();
 
                     break;
+                case R.id.logoutMenu:
+                    SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("username");
+                    editor.remove("token");
+                    editor.apply();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    break;
             }
 
             return true;
@@ -162,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 previouslySelected.get().setIcon(R.drawable.addphoto);
             }
             Bundle bundle = new Bundle();
-            bundle.putString("username", "default");
+            bundle.putString("username", UserData.getUsername());
             getSupportFragmentManager().setFragmentResult("username", bundle);
             replaceFragment(userProfile, "userProfile");
 

@@ -16,7 +16,6 @@ import com.example.client.api.UsersAPI;
 import com.example.client.databinding.ActivityLoginBinding;
 import com.example.client.model.IpAddress;
 import com.example.client.model.LoginResponse;
-import com.example.client.model.Token;
 import com.example.client.model.UserData;
 
 import retrofit2.Call;
@@ -32,15 +31,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         loginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
 
+
+        SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String username = sharedPreferences.getString("username", null);
 
         if (token != null && username !=null) {
             UserData.setUsername(username);
             UserData.setToken(token);
-//            changeActivity();
+            changeActivity();
         }
 
 
@@ -104,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
     }
     private void changeActivity(){
         Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(myIntent);
         finish();
     }

@@ -52,7 +52,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
 
             form.parse(req, async function(err, fields, files) {
-                console.log(fields);
                 let user = model.usersArray.find(i=>{return i.name == fields.username})
                 if(user){
                     if(await bcrypt.compare(fields.password, user.password)){

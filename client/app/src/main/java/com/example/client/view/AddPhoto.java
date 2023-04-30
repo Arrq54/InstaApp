@@ -2,7 +2,6 @@ package com.example.client.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -23,6 +22,7 @@ import com.example.client.databinding.FragmentHomeBinding;
 import com.example.client.model.Imager;
 
 import java.io.IOException;
+import java.net.URI;
 
 public class AddPhoto extends Fragment {
 
@@ -36,7 +36,7 @@ public class AddPhoto extends Fragment {
 
         addPhotoBinding = FragmentAddPhotoBinding.inflate(getLayoutInflater());
 
-
+        Log.d("logdev", "add photo");
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -46,9 +46,10 @@ public class AddPhoto extends Fragment {
                             // There are no request codes
                             Intent data = result.getData();
                             try {
-                                Imager.bitmap =  MediaStore.Images.Media.getBitmap(AddPhoto.this.getActivity().getContentResolver(), Uri.parse(data.getDataString()));
+//                                Imager.bitmap =  MediaStore.Images.Media.getBitmap(AddPhoto.this.getActivity().getContentResolver(), Uri.parse(data.getDataString()));
+                                Imager.uri = Uri.parse(data.getDataString());
                                 ((MainActivity)getActivity()).setAddPhotoUpload();
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
 

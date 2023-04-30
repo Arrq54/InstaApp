@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,8 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
         Glide.with(holder.img.getContext())
                 .load(IpAddress.ip + "/api/photos/getfile/"+photo.getId())
                 .into(holder.img);
+        holder.username.setText(photo.getAlbum());
+
     }
 
     @Override
@@ -47,10 +50,11 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView img;
+        private TextView username;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.photo);
-
+            username = itemView.findViewById(R.id.usernamePost);
             itemView.findViewById(R.id.homePagePost).setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,1950));;
 
 //            img.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));

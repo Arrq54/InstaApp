@@ -11,8 +11,8 @@ const userRouter = async (req, res) => {
         res.end(JSON.stringify(await userController.confirm(req.url.split("/")[4])))
 
     }else if(req.url == "/api/user/login" && req.method == "POST"){
-
-        res.end(JSON.stringify(await userController.login(req)))
+        let obj = await userController.login(req)
+        res.end(JSON.stringify(obj))
 
     }
 }

@@ -41,6 +41,7 @@ module.exports = {
                                             originalName: file.name,
                                             url: newPath,
                                             album: fields.album,
+                                            description: fields.description,
                                             timestamp: stats.birthtime
                                         })
                                     }

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.example.client.adapters.RecAdapterProfilePics;
 import com.example.client.databinding.FragmentUserProfileBinding;
+import com.example.client.model.UserData;
 import com.example.client.viewmodel.ProfilePhotosViewModel;
 
 
@@ -30,7 +31,11 @@ public class UserProfile extends Fragment {
         userProfileBinding = FragmentUserProfileBinding.inflate(getLayoutInflater());
 
 
+
         profilePhotosViewModel = new ViewModelProvider(UserProfile.this).get(ProfilePhotosViewModel.class);
+
+
+        userProfileBinding.username.setText(UserData.getUsername());
 
         getParentFragmentManager()
                 .setFragmentResultListener("username", this, (s, b) -> {
