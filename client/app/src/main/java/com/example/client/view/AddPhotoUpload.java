@@ -52,6 +52,10 @@ public class AddPhotoUpload extends Fragment {
             e.printStackTrace();
         };
 
+        if(Imager.description != null){
+            addPhotoUploadBinding.postDescription.setText(Imager.description);
+        }
+
         addPhotoUploadBinding.confirmPost.setOnClickListener(v->{
             if(addPhotoUploadBinding.postDescription.getText().length()>0){
                 String filePath = null;
@@ -99,6 +103,11 @@ public class AddPhotoUpload extends Fragment {
             }
         });
 
+
+        addPhotoUploadBinding.addTags.setOnClickListener(v->{
+            Imager.description = addPhotoUploadBinding.postDescription.getText().toString();
+            ((MainActivity)getActivity()).setTagsForPhoto();
+        });
 
 
         return addPhotoUploadBinding.getRoot();

@@ -73,6 +73,17 @@ module.exports = {
                 }
             })
         })
+    },
+    auth: (req)=>{
+        return new Promise(async (resolve, reject) => {
+            if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
+                // czytam dane z nagłowka
+                let token = req.headers.authorization.split(" ")[1]
+                let decoded = await jwt.verify(token, process.env.JWT_KEY)
+                resolve({success: true})
+             }
+             resolve({success: false})
+        })
     }
     
 }

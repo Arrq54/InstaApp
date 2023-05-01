@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.client.api.UsersAPI;
 import com.example.client.databinding.ActivityLoginBinding;
+import com.example.client.model.AuthResponse;
 import com.example.client.model.IpAddress;
 import com.example.client.model.LoginResponse;
 import com.example.client.model.UserData;
@@ -33,6 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IpAddress.ip)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        UsersAPI usersAPI = retrofit.create(UsersAPI.class);
+
+
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String username = sharedPreferences.getString("username", null);
@@ -40,7 +49,27 @@ public class LoginActivity extends AppCompatActivity {
         if (token != null && username !=null) {
             UserData.setUsername(username);
             UserData.setToken(token);
-            changeActivity();
+
+            Call<AuthResponse> call = usersAPI.postAuthData("Bearer " + token);
+            call.enqueue(new Callback<AuthResponse>() {
+                @Override
+                public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                    if(response.body().isSuccess()){
+                        changeActivity();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AuthResponse> call, Throwable t) {
+                    Log.d("logdev", t.toString());
+                }
+            });
+
+
+
+
+
+
         }
 
 
@@ -49,12 +78,6 @@ public class LoginActivity extends AppCompatActivity {
 
         loginBinding.register.setText(content);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(IpAddress.ip)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        UsersAPI usersAPI = retrofit.create(UsersAPI.class);
 
 
         loginBinding.register.setOnClickListener(textview->{

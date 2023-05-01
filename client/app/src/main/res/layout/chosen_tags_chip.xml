@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.MaterialComponents.Chip.Action"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="chip"
+    app:checkedIconEnabled="false"
+    app:checkedIcon="@null"
+
+    android:id="@+id/chip"
+    android:textSize="11dp"
+    android:fontFamily="@font/nunitosans_regular"
+    app:chipBackgroundColor="#d6d6d6">
+
+</com.google.android.material.chip.Chip>

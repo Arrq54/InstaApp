@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Search searchFragment;
     private UserProfile userProfile;
     private AddPhotoUpload addPhotoUpload;
+    private TagsForPhoto tagsForPhoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         searchFragment = new Search();
         userProfile = new UserProfile();
         addPhotoUpload = new AddPhotoUpload();
+        tagsForPhoto = new TagsForPhoto();
 
         replaceFragment(homeFragment, "home");
 
@@ -195,6 +197,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.root, addPhotoUpload, "addphotoupload")
+                .commit();
+    }
+    public void setTagsForPhoto(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.root, tagsForPhoto, "tagsforphoto")
                 .commit();
     }
 

@@ -1,12 +1,13 @@
 package com.example.client.api;
 
+import com.example.client.model.AuthResponse;
 import com.example.client.model.LoginResponse;
-import com.example.client.model.Photo;
 import com.example.client.model.Token;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface UsersAPI {
@@ -25,4 +26,7 @@ public interface UsersAPI {
             @Field("username") String username,
             @Field("password") String password
     );
+
+    @POST("/api/user/auth")
+    Call<AuthResponse> postAuthData(@Header("Authorization") String token);
 }
