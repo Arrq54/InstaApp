@@ -66,10 +66,12 @@ module.exports = {
     },
 
     addTags: async (req)=>{
+        console.log("add tags");
         return new Promise((resolve, reject) => {
             form.parse(req, function(err, fields, files) {
+                console.log(fields);
                 let photo = model.photosArray.find((i)=>{return i.id == fields.photoid});
-                if(photo){
+                if(photo != null){
                     fields.ids.map(async (i)=>{
                         if(!photo.tags.find((z)=>{return z.id == i})){
                              await photo.addTag(await tagsController.getTagById(i))
@@ -78,7 +80,7 @@ module.exports = {
                     })
                     resolve(model.photosArray.find((i)=>{return i.id == fields.photoid}))
                 }
-                reject({success: false, message:"Photo not found"})
+                resolve({success: false, message:"Photo not found"})
             })
         })
     },

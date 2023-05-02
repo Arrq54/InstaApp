@@ -17,6 +17,7 @@ import com.example.client.model.IpAddress;
 import com.example.client.model.Photo;
 import com.example.client.model.Tag;
 import com.example.client.model.TagChipInfo;
+import com.example.client.model.UserData;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class TagsForPhoto extends Fragment {
-    private FragmentTagsForPhotoBinding tagsForPhotoBinding;
+    private com.example.client.databinding.FragmentTagsForPhotoBinding tagsForPhotoBinding;
     private ArrayList<TagChipInfo> listOfTags;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,8 +40,8 @@ public class TagsForPhoto extends Fragment {
 
 
         tagsForPhotoBinding = FragmentTagsForPhotoBinding.inflate(getLayoutInflater());
-        listOfTags = new ArrayList<>();
-
+        listOfTags = UserData.getListofTags();
+        refreshCurrentTags();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IpAddress.ip)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -90,6 +91,38 @@ public class TagsForPhoto extends Fragment {
                 
             }
         });
+
+        tagsForPhotoBinding.addTagButton.setOnClickListener(btn->{
+            if(tagsForPhotoBinding.customTag.getText().length() !=0){
+                String text = tagsForPhotoBinding.customTag.getText().toString();
+                if(!text.startsWith("#")){
+                    text = "#" + text;
+                }
+                boolean flag = true;
+                for(TagChipInfo tci: listOfTags){
+                   if(tci.getName().equals(text)){
+                       flag = false;
+                   }
+                }
+                if(flag){
+                    listOfTags.add(new TagChipInfo(123321,text ));
+                    refreshCurrentTags();
+                }
+
+            }
+        });
+
+        tagsForPhotoBinding.confirmAddTags.setOnClickListener(v->{
+            UserData.setListofTags(listOfTags);
+            ((MainActivity)getActivity()).setAddPhotoUpload();
+        });
+
+
+
+
+
+
+
         return tagsForPhotoBinding.getRoot();
     }
     private void refreshCurrentTags(){

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const model = require("./model.js")
 const formidable = require('formidable');
+const { log } = require('console');
 const form = formidable({ multiples: true });
 
 module.exports = { 
@@ -61,15 +62,15 @@ module.exports = {
          return new Promise((resolve, reject) => {
 
             form.parse(req, function(err, fields, files) {
-                console.log(fields);
-
-
-                if(!model.tagsArray.find(i=>{return i.name == fields.name}))
+                let found = model.tagsArray.find(i=>{return i.name == fields.name})
+                if(found == undefined || found == null)
                 {
-                    new model.Tag(model.tagsArray.length, fields.name, fields.popularity)
-                    resolve({message: "Tag added", success: true})
+                    let newTag = new model.Tag(model.tagsArray.length, fields.name, fields.popularity)
+                    resolve({message: "Tag added", success: true, id: newTag.id})
+                }else{
+                    resolve({message: "Tag already exists", success: false, id: found.id})
+
                 }
-                resolve({message: "Tag already exists", success: false})
             })
         })
 

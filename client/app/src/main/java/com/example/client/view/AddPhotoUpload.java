@@ -16,16 +16,21 @@ import android.view.ViewGroup;
 
 import com.example.client.R;
 import com.example.client.api.GetPhotosAPI;
+import com.example.client.api.TagsAPI;
 import com.example.client.api.UploadPhotoAPI;
 import com.example.client.databinding.FragmentAddPhotoUploadBinding;
 import com.example.client.model.Imager;
 import com.example.client.model.IpAddress;
 import com.example.client.model.Photo;
+import com.example.client.model.TagChipInfo;
+import com.example.client.model.TagUploadResponse;
 import com.example.client.model.UploadResponse;
 import com.example.client.model.UserData;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -56,6 +61,8 @@ public class AddPhotoUpload extends Fragment {
             addPhotoUploadBinding.postDescription.setText(Imager.description);
         }
 
+        addPhotoUploadBinding.addTags.setText("TAGS ("+UserData.getListofTags().size()+")");
+
         addPhotoUploadBinding.confirmPost.setOnClickListener(v->{
             if(addPhotoUploadBinding.postDescription.getText().length()>0){
                 String filePath = null;
@@ -68,10 +75,6 @@ public class AddPhotoUpload extends Fragment {
                         cursor.close();
                     }
                 }
-
-
-//                DocumentFile documentFile = DocumentFile.fromSingleUri(AddPhotoUpload.this.getActivity().getApplicationContext(), Imager.uri);
-//                File file = new File(documentFile.getUri().getPath());
 
 
                 File file = new File(filePath);
@@ -92,7 +95,7 @@ public class AddPhotoUpload extends Fragment {
                 call.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
-                        Log.d("logdev", response.body().toString());
+                        uploadTagsForPhoto(response.body().getId());
                     }
 
                     @Override
@@ -111,5 +114,77 @@ public class AddPhotoUpload extends Fragment {
 
 
         return addPhotoUploadBinding.getRoot();
+    }
+    private void uploadTagsForPhoto(String id){
+        ArrayList<String> newCustomTags = new ArrayList<>();
+        ArrayList<Integer> uploadedIds = new ArrayList<>();
+        for(TagChipInfo tci: UserData.getListofTags()){
+            if(tci.getId() == 123321){
+                newCustomTags.add(tci.getName());
+            }else{
+                uploadedIds.add(tci.getId());
+            }
+        }
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IpAddress.ip)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        TagsAPI tagsAPI= retrofit.create(TagsAPI.class);
+
+
+        for(String s: newCustomTags){
+            Call<TagUploadResponse> call = tagsAPI.uploadTag(s,1);
+            call.enqueue(new Callback<TagUploadResponse>() {
+                @Override
+                public void onResponse(Call<TagUploadResponse> call, Response<TagUploadResponse> response) {
+                    Log.d("logdev", String.valueOf(response.body().getId()));
+                    uploadedIds.add(response.body().getId());
+                }
+
+                @Override
+                public void onFailure(Call<TagUploadResponse> call, Throwable t) {
+                    Log.d("logdev", t.toString());
+                }
+            });
+        }
+
+
+        Log.d("logdev", uploadedIds.toString());
+        int[] intArray = new int[uploadedIds.size()];
+        for (int i = 0; i < uploadedIds.size(); i++) {
+            intArray[i] = uploadedIds.get(i);
+        }
+
+        Log.d("logdev", Arrays.toString(intArray));
+
+
+/*
+*
+*           FIXME DZIALAJA TAGI Z SERVERA, ALE NIE MA CZEKANIA NA ID Z CUSTOMOWYO DODANYCH TAGOW, TRZEBA JAKOS ASYNCHRONICZNIE. POWODZONKA :)
+*
+* */
+
+
+
+        
+        Call<Photo> call = tagsAPI.setTagsForPhoto(id, intArray);
+        call.enqueue(new Callback<Photo>() {
+            @Override
+            public void onResponse(Call<Photo> call, Response<Photo> response) {
+                Log.d("logdev", response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<Photo> call, Throwable t) {
+                Log.d("logdev", t.toString());
+            }
+        });
+
+
+
+
+
     }
 }
