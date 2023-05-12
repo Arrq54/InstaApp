@@ -22,9 +22,8 @@ public interface TagsAPI {
 
     @FormUrlEncoded
     @POST("/api/tags")
-    Call<TagUploadResponse> uploadTag(
-            @Field("name") String name,
-            @Field("popularity") int popularity
+    Call<TagUploadResponse> uploadTags(
+            @Field("tags") Tag[] tags
     );
 
     @FormUrlEncoded

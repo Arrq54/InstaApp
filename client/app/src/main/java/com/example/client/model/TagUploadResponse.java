@@ -3,7 +3,7 @@ package com.example.client.model;
 public class TagUploadResponse {
     private String message;
     private boolean success;
-    private int id;
+    private int[] ids;
 
     public String getMessage() {
         return message;
@@ -21,17 +21,17 @@ public class TagUploadResponse {
         this.success = success;
     }
 
-    public int getId() {
-        return id;
+    public int[] getIds() {
+        return ids;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIds(int[] ids) {
+        this.ids = ids;
     }
 
-    public TagUploadResponse(String message, boolean success, int id) {
+    public TagUploadResponse(String message, boolean success, int[] ids) {
         this.message = message;
         this.success = success;
-        this.id = id;
+        this.ids = ids;
     }
 }

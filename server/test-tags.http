@@ -15,8 +15,15 @@ POST http://localhost:3000/api/tags HTTP/1.1
 Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
+
 {
-  "name": "#nowdsfdydTag",
-  "popularity": 111
+    "tags": [
+      {
+        "name": "#aadadsa0",
+        "popularity": 1114
+      }
+    ]
+    
 }
+
 

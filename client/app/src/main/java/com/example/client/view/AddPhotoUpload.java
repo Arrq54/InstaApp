@@ -22,6 +22,7 @@ import com.example.client.databinding.FragmentAddPhotoUploadBinding;
 import com.example.client.model.Imager;
 import com.example.client.model.IpAddress;
 import com.example.client.model.Photo;
+import com.example.client.model.Tag;
 import com.example.client.model.TagChipInfo;
 import com.example.client.model.TagUploadResponse;
 import com.example.client.model.UploadResponse;
@@ -29,6 +30,7 @@ import com.example.client.model.UserData;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -134,53 +136,56 @@ public class AddPhotoUpload extends Fragment {
         TagsAPI tagsAPI= retrofit.create(TagsAPI.class);
 
 
-        for(String s: newCustomTags){
-            Call<TagUploadResponse> call = tagsAPI.uploadTag(s,1);
-            call.enqueue(new Callback<TagUploadResponse>() {
-                @Override
-                public void onResponse(Call<TagUploadResponse> call, Response<TagUploadResponse> response) {
-                    Log.d("logdev", String.valueOf(response.body().getId()));
-                    uploadedIds.add(response.body().getId());
-                }
+        Tag[] tagsArray = new Tag[newCustomTags.size()];
 
-                @Override
-                public void onFailure(Call<TagUploadResponse> call, Throwable t) {
-                    Log.d("logdev", t.toString());
-                }
-            });
+        for(int i=0; i<newCustomTags.size(); i++){
+            tagsArray[i] = new Tag(newCustomTags.get(i), 1);
         }
+        final int[][] customTagsUploadedId = new int[1][1];
 
-
-        Log.d("logdev", uploadedIds.toString());
-        int[] intArray = new int[uploadedIds.size()];
-        for (int i = 0; i < uploadedIds.size(); i++) {
-            intArray[i] = uploadedIds.get(i);
-        }
-
-        Log.d("logdev", Arrays.toString(intArray));
-
-
-/*
-*
-*           FIXME DZIALAJA TAGI Z SERVERA, ALE NIE MA CZEKANIA NA ID Z CUSTOMOWYO DODANYCH TAGOW, TRZEBA JAKOS ASYNCHRONICZNIE. POWODZONKA :)
-*
-* */
-
-
-
-        
-        Call<Photo> call = tagsAPI.setTagsForPhoto(id, intArray);
-        call.enqueue(new Callback<Photo>() {
+        Call<TagUploadResponse> call2 = tagsAPI.uploadTags(tagsArray);
+        call2.enqueue(new Callback<TagUploadResponse>() {
             @Override
-            public void onResponse(Call<Photo> call, Response<Photo> response) {
-                Log.d("logdev", response.body().toString());
+            public void onResponse(Call<TagUploadResponse> call, Response<TagUploadResponse> response) {
+                customTagsUploadedId[0] = response.body().getIds();
+                for(int i=0;i<customTagsUploadedId[0].length;i++){
+                    uploadedIds.add(customTagsUploadedId[0][i]);
+                }
+
+
+                Log.d("logdev", uploadedIds.toString());
+                int[] intArray = new int[uploadedIds.size()];
+                for (int i = 0; i < uploadedIds.size(); i++) {
+                    intArray[i] = uploadedIds.get(i);
+                }
+
+                Log.d("logdev", Arrays.toString(intArray));
+                Call<Photo> call3 = tagsAPI.setTagsForPhoto(id, intArray);
+                call3.enqueue(new Callback<Photo>() {
+                    @Override
+                    public void onResponse(Call<Photo> call, Response<Photo> response) {
+                        UserData.setListofTags(new ArrayList<>());
+                        Imager.description = "";
+                        ((MainActivity)getActivity()).setHomeFragment();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Photo> call, Throwable t) {
+                        Log.d("logdev", t.toString());
+                    }
+                });
+
+
             }
 
             @Override
-            public void onFailure(Call<Photo> call, Throwable t) {
-                Log.d("logdev", t.toString());
+            public void onFailure(Call<TagUploadResponse> call, Throwable t) {
+                Log.d("logdev", "error przy tagach"+t.toString());
             }
         });
+
+
+//
 
 
 

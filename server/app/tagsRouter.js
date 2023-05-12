@@ -14,7 +14,7 @@ const tagsRouter = async (req, res) => {
 
     }else if(req.url == "/api/tags" && req.method == "POST"){
 
-        res.end(JSON.stringify(await tagsController.addTag(req)))
+        res.end(JSON.stringify(await tagsController.addTags(req)))
 
     }
 }

@@ -199,6 +199,12 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.root, addPhotoUpload, "addphotoupload")
                 .commit();
     }
+    public void setHomeFragment(){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.root, homeFragment, "home")
+                .commit();
+    }
     public void setTagsForPhoto(){
         getSupportFragmentManager()
                 .beginTransaction()

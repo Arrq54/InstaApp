@@ -15,13 +15,14 @@ public class Tag {
         return id;
     }
 
+    public Tag(String name, int popularity) {
+        this.name = name;
+        this.popularity = popularity;
+    }
+
     @Override
     public String toString() {
-        return "Tag{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", popularity=" + popularity +
-                '}';
+        return "{\"name\":\""+name+"\",\"popularity\":1}";
     }
 
     public void setId(int id) {

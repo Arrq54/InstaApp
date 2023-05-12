@@ -55,23 +55,39 @@ module.exports = {
         }
         return {success: false, mesasge: "Tag not found"}
     },
-    async addTag(req){
+    async addTags(req){
          //LOAD DEFAULT TAGS FROM JSON FILE
          await this.checkIfInit()
          //================================
          return new Promise((resolve, reject) => {
 
-            form.parse(req, function(err, fields, files) {
-                let found = model.tagsArray.find(i=>{return i.name == fields.name})
-                if(found == undefined || found == null)
-                {
-                    let newTag = new model.Tag(model.tagsArray.length, fields.name, fields.popularity)
-                    resolve({message: "Tag added", success: true, id: newTag.id})
-                }else{
-                    resolve({message: "Tag already exists", success: false, id: found.id})
-
-                }
-            })
+            try{
+                form.parse(req, function(err, fields, files) {
+                    let ids = []
+                    console.log(fields);
+                    if(!Array.isArray(fields.tags)){
+                        fields.tags = [fields.tags]
+                    }
+                    fields.tags.map(z=>{
+                        z = JSON.parse(z);
+                        console.log(model.tagsArray);
+                        let found = model.tagsArray.find(i=>{return i.name == z.name})
+                        if(found == undefined || found == null)
+                        {
+                            let newTag = new model.Tag(model.tagsArray.length, z.name, z.popularity)
+                            ids.push(newTag.id);
+                            
+                        }
+                    })
+                    resolve({message: "tags added", success: false, ids: ids})
+                   
+    
+                    
+                })
+            }catch{
+                resolve({message: "ERROR", success: false, ids: []})
+            }
+           
         })
 
     }
