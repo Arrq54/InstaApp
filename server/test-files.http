@@ -5,7 +5,7 @@ GET http://localhost:3000/api/photos/default HTTP/1.1
 GET http://localhost:3000/api/photos HTTP/1.1
 
 ###
-GET http://localhost:3000/api/photos/getfile/16821997231461911 HTTP/1.1
+GET http://localhost:3000/api/photos/getfile/168398795367113126 HTTP/1.1
 
 
 ###
@@ -85,7 +85,7 @@ Content-Type: text/plain
 
 ###
 
-GET http://localhost:3000/api/photos/16812915574136312 HTTP/1.1
+GET http://localhost:3000/api/photos/168398795367113126 HTTP/1.1
 
 
 ###

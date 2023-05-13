@@ -36,7 +36,6 @@ public class AddPhoto extends Fragment {
 
         addPhotoBinding = FragmentAddPhotoBinding.inflate(getLayoutInflater());
 
-        Log.d("logdev", "add photo");
         ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -59,7 +58,7 @@ public class AddPhoto extends Fragment {
                     }
                 });
         addPhotoBinding.openGallery.setOnClickListener(v->{
-            Log.d("logdev", "click");
+
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
 

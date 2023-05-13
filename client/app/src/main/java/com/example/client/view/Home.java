@@ -33,7 +33,7 @@ public class Home extends Fragment {
         homePageViewModel = new ViewModelProvider(Home.this).get(HomePageViewModel.class);
 
         StaggeredGridLayoutManager staggeredGridLayoutManager
-                = new StaggeredGridLayoutManager(1, LinearLayout.VERTICAL);
+                = new StaggeredGridLayoutManager(2, LinearLayout.VERTICAL);
 
         staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         staggeredGridLayoutManager.offsetChildrenVertical(16);

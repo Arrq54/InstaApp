@@ -17,6 +17,7 @@ http.createServer(async (req, res) => {
     //tags
 
     else if (req.url.search("/api/tags") != -1) {
+      console.log("Use tags router");
        await tagsRouter(req, res)
     }
 

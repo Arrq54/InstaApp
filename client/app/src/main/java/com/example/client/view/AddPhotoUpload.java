@@ -27,6 +27,7 @@ import com.example.client.model.TagChipInfo;
 import com.example.client.model.TagUploadResponse;
 import com.example.client.model.UploadResponse;
 import com.example.client.model.UserData;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,32 +79,28 @@ public class AddPhotoUpload extends Fragment {
                         cursor.close();
                     }
                 }
-
-
                 File file = new File(filePath);
-
                 RequestBody fileRequest = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), fileRequest);
                 RequestBody album = RequestBody.create(MultipartBody.FORM, UserData.getUsername());
                 RequestBody description = RequestBody.create(MultipartBody.FORM, addPhotoUploadBinding.postDescription.getText().toString());
-
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(IpAddress.ip)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
                 UploadPhotoAPI uploadPhotoAPI = retrofit.create(UploadPhotoAPI.class);
-
                 Call<Photo> call = uploadPhotoAPI.sendImage(album, description, body);
                 call.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
+                        Log.d("logdev", "response");
                         uploadTagsForPhoto(response.body().getId());
                     }
 
                     @Override
                     public void onFailure(Call<Photo> call, Throwable t) {
-                        Log.d("logdev", t.toString());
+
                     }
                 });
             }
@@ -118,60 +116,55 @@ public class AddPhotoUpload extends Fragment {
         return addPhotoUploadBinding.getRoot();
     }
     private void uploadTagsForPhoto(String id){
-        ArrayList<String> newCustomTags = new ArrayList<>();
-        ArrayList<Integer> uploadedIds = new ArrayList<>();
+        int totalTagsQuantity = UserData.getListofTags().size();
+
+        int[] arrayOfTagsId = new int[totalTagsQuantity];
+        Arrays.fill(arrayOfTagsId, -1);
+        int counter = 0;
+
         for(TagChipInfo tci: UserData.getListofTags()){
-            if(tci.getId() == 123321){
-                newCustomTags.add(tci.getName());
-            }else{
-                uploadedIds.add(tci.getId());
+            if(tci.getId() != 123321){
+                arrayOfTagsId[counter] = tci.getId();
+                counter++;
             }
         }
-
+        int tagsToUploadTotal = totalTagsQuantity - counter;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IpAddress.ip)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        TagsAPI tagsAPI= retrofit.create(TagsAPI.class);
-
-
-        Tag[] tagsArray = new Tag[newCustomTags.size()];
-
-        for(int i=0; i<newCustomTags.size(); i++){
-            tagsArray[i] = new Tag(newCustomTags.get(i), 1);
+        TagsAPI tagsAPI = retrofit.create(TagsAPI.class);
+        
+        String[] tagsToUpload = new String[tagsToUploadTotal];
+        int tagsToUploadCounter = 0;
+        for(TagChipInfo tci: UserData.getListofTags()){
+            if(tci.getId() == 123321){
+                tagsToUpload[tagsToUploadCounter] = tci.getName();
+                tagsToUploadCounter++; 
+            }
         }
-        final int[][] customTagsUploadedId = new int[1][1];
-
-        Call<TagUploadResponse> call2 = tagsAPI.uploadTags(tagsArray);
-        call2.enqueue(new Callback<TagUploadResponse>() {
+        Call<TagUploadResponse> call = tagsAPI.uploadTags(tagsToUpload);
+        final int[] finalCounter = {counter};
+        call.enqueue(new Callback<TagUploadResponse>() {
             @Override
             public void onResponse(Call<TagUploadResponse> call, Response<TagUploadResponse> response) {
-                customTagsUploadedId[0] = response.body().getIds();
-                for(int i=0;i<customTagsUploadedId[0].length;i++){
-                    uploadedIds.add(customTagsUploadedId[0][i]);
+
+                for(int i: response.body().getIds()){
+                    arrayOfTagsId[finalCounter[0]] = i;
+                    finalCounter[0]++;
                 }
+                Call<Photo> setTagsForPhotoById = tagsAPI.setTagsForPhoto(id, arrayOfTagsId);
 
-
-                Log.d("logdev", uploadedIds.toString());
-                int[] intArray = new int[uploadedIds.size()];
-                for (int i = 0; i < uploadedIds.size(); i++) {
-                    intArray[i] = uploadedIds.get(i);
-                }
-
-                Log.d("logdev", Arrays.toString(intArray));
-                Call<Photo> call3 = tagsAPI.setTagsForPhoto(id, intArray);
-                call3.enqueue(new Callback<Photo>() {
+                setTagsForPhotoById.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
-                        UserData.setListofTags(new ArrayList<>());
-                        Imager.description = "";
                         ((MainActivity)getActivity()).setHomeFragment();
                     }
 
                     @Override
                     public void onFailure(Call<Photo> call, Throwable t) {
-                        Log.d("logdev", t.toString());
+
                     }
                 });
 
@@ -180,16 +173,9 @@ public class AddPhotoUpload extends Fragment {
 
             @Override
             public void onFailure(Call<TagUploadResponse> call, Throwable t) {
-                Log.d("logdev", "error przy tagach"+t.toString());
+                Log.d("logdev", t.toString());
             }
         });
-
-
-//
-
-
-
-
-
     }
 }
+

@@ -1,7 +1,6 @@
 const fs = require('fs');
 const model = require("./model.js")
 const formidable = require('formidable');
-const { log } = require('console');
 const form = formidable({ multiples: true });
 
 module.exports = { 
@@ -42,6 +41,71 @@ module.exports = {
             return i.name
         })
     },
+    async addTagsList(req){
+        if(model.tagsArray.length == 0){
+            fs.readFile('app/data/tags.json', 'utf8', function readFileCallback(err, data){
+                if (err){
+                    console.log(err);
+                } else {
+                let dataFromFile = JSON.parse(data)
+                dataFromFile.map(i=>{
+                   new model.Tag(i.id, i.name, i.popularity)
+                })
+            }});
+        }
+        return new Promise((resolve, reject) => {
+            let ids = []
+
+            formidable({multiples: true}).parse(req, function(err, fields, files){
+                
+
+
+                console.log(fields);
+               
+                if(fields.tags != undefined){
+                    if(!Array.isArray(fields.tags)){
+                        fields.tags = [fields.tags]
+                    }
+                    fields.tags.map(i=>{
+                        console.log(i);
+                        if(model.tagsArray.find(z=>{return z.name == i}) == null){
+                            let newTag = new model.Tag(model.tagsArray.length, i, 1)
+                            ids.push(newTag.id)
+                        }
+                       
+                    })
+                }
+                resolve({message: "SUCCESS", success: true, ids: ids})
+            })
+          
+
+        })
+
+
+           // formidable({multiples: true}).parse(req, function(err, fields, files){
+           //     console.log(fields);
+           //     let ids = []
+           //     // if(err){
+           //     //     resolve({message: "ERROR", success: false, ids: []})
+           //     // }
+             
+           //     // let ids = []
+           //     // if(fields.tags != undefined){
+           //     //     if(!Array.isArray(fields.tags)){
+           //     //         fields.tags = [fields.tags]
+           //     //     }
+           //     //     fields.tags.map(i=>{
+   
+           //     //         let newTag = new model.Tag(model.tagsArray.length, i, 1)
+           //     //         ids.push(newTag.id)
+           //     //     })
+           //     // }
+           //     return {message: "SUCCESS", success: true, ids: ids}
+           // })
+
+       
+       
+   },
     async getTagById(id){
          //LOAD DEFAULT TAGS FROM JSON FILE
          await this.checkIfInit()
@@ -53,43 +117,16 @@ module.exports = {
         if(found){
             return found;
         }
-        return {success: false, mesasge: "Tag not found"}
+
+
+        console.log("Search for tag with id:" + id);
+
+
+  
+
+        return null
+        // return new model.Tag(model.tagsArray.length, z.name, z.popularity)
     },
-    async addTags(req){
-         //LOAD DEFAULT TAGS FROM JSON FILE
-         await this.checkIfInit()
-         //================================
-         return new Promise((resolve, reject) => {
-
-            try{
-                form.parse(req, function(err, fields, files) {
-                    let ids = []
-                    console.log(fields);
-                    if(!Array.isArray(fields.tags)){
-                        fields.tags = [fields.tags]
-                    }
-                    fields.tags.map(z=>{
-                        z = JSON.parse(z);
-                        console.log(model.tagsArray);
-                        let found = model.tagsArray.find(i=>{return i.name == z.name})
-                        if(found == undefined || found == null)
-                        {
-                            let newTag = new model.Tag(model.tagsArray.length, z.name, z.popularity)
-                            ids.push(newTag.id);
-                            
-                        }
-                    })
-                    resolve({message: "tags added", success: false, ids: ids})
-                   
+   
     
-                    
-                })
-            }catch{
-                resolve({message: "ERROR", success: false, ids: []})
-            }
-           
-        })
-
-    }
-    
-}
+} 

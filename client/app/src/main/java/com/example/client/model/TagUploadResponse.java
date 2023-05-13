@@ -1,5 +1,7 @@
 package com.example.client.model;
 
+import java.util.Arrays;
+
 public class TagUploadResponse {
     private String message;
     private boolean success;
@@ -7,6 +9,15 @@ public class TagUploadResponse {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public String toString() {
+        return "TagUploadResponse{" +
+                "message='" + message + '\'' +
+                ", success=" + success +
+                ", ids=" + Arrays.toString(ids) +
+                '}';
     }
 
     public void setMessage(String message) {

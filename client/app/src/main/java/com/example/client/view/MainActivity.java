@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private UserProfile userProfile;
     private AddPhotoUpload addPhotoUpload;
     private TagsForPhoto tagsForPhoto;
+    private  AtomicReference<MenuItem> previouslySelected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         mainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mainBinding.getRoot());
 
-        AtomicReference<MenuItem> previouslySelected = new AtomicReference<>();
 
 
         homeFragment = new Home();
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         //HANDLE BOTTOM MENU
         mainBinding.bottomNav.setSelectedItemId(R.id.home);
+        previouslySelected= new AtomicReference<>();
         previouslySelected.set(mainBinding.bottomNav.getMenu().findItem(R.id.home));
         mainBinding.bottomNav.setOnItemSelectedListener(item -> {
             switch(item.getItemId()){
@@ -200,21 +201,19 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
     public void setHomeFragment(){
+        findViewById(R.id.home).performClick();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.root, homeFragment, "home")
                 .commit();
     }
     public void setTagsForPhoto(){
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.root, tagsForPhoto, "tagsforphoto")
                 .commit();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        Log.d("logdev", String.valueOf(requestCode));
-//    }
+
 }

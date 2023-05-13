@@ -20,7 +20,7 @@ module.exports = {
 
     createNewPhoto: (data)=>{
         //new photo
-        console.log(data.url);
+        console.log("Uploaded:" + data.url);
         return new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp)
     },
     getAllPhotos: ()=>{
@@ -66,20 +66,31 @@ module.exports = {
     },
 
     addTags: async (req)=>{
-        console.log("add tags");
+        
         return new Promise((resolve, reject) => {
             form.parse(req, function(err, fields, files) {
+                console.log("================");
                 console.log(fields);
+                console.log("================");
+                console.log("Adding tags to photo with id: " + fields.photoid);
                 let photo = model.photosArray.find((i)=>{return i.id == fields.photoid});
-                if(photo != null){
-                    fields.ids.map(async (i)=>{
-                        if(!photo.tags.find((z)=>{return z.id == i})){
-                             await photo.addTag(await tagsController.getTagById(i))
+                
+                if(photo != null && photo.tags.length == 0){
+                    if(fields.ids != undefined){
+                        if(!Array.isArray(fields.ids)){
+                            fields.ids = [fields.ids]
                         }
-                       
-                    })
-                    resolve(model.photosArray.find((i)=>{return i.id == fields.photoid}))
-                }
+                        fields.ids.map(async (i)=>{ 
+                         
+                                // console.log(i);
+                            await photo.addTag(await tagsController.getTagById(i))
+                            
+                            
+                        })
+                        resolve(model.photosArray.find((i)=>{return i.id == fields.photoid}))
+                    }
+                  
+                } 
                 resolve({success: false, message:"Photo not found"})
             })
         })

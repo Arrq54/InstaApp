@@ -97,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    Log.d("logdev", response.body().toString());
                     if(response.body().isSuccess()){
                         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();

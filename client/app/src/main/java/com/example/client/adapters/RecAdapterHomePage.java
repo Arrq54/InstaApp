@@ -41,10 +41,10 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
         Glide.with(holder.img.getContext())
                 .load(IpAddress.ip + "/api/photos/getfile/"+photo.getId())
                 .into(holder.img);
-        holder.username.setText(photo.getAlbum());
-        holder.username2.setText(photo.getAlbum());
+//        holder.username.setText(photo.getAlbum());
+//        holder.username2.setText(photo.getAlbum());
 
-        holder.description.setText(photo.getLastChange());
+//        holder.description.setText(photo.getLastChange());
 
         holder.img.setOnClickListener(v->{
             String txt = "";
@@ -71,10 +71,10 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.photo);
-            username = itemView.findViewById(R.id.usernamePost);
-            username2 = itemView.findViewById(R.id.username);
-            description = itemView.findViewById(R.id.description);
-            itemView.findViewById(R.id.homePagePost).setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,1950));;
+//            username = itemView.findViewById(R.id.usernamePost);
+//            username2 = itemView.findViewById(R.id.username);
+//            description = itemView.findViewById(R.id.description);
+            itemView.findViewById(R.id.homePagePost).setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,875));;
 
 //            img.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500));
         }

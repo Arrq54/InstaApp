@@ -63,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Token>() {
                     @Override
                     public void onResponse(Call<Token> call, Response<Token> response) {
-                        Log.d("logdev", response.body().getToken());
                         Intent intent = new Intent(RegisterActivity.this, ConfirmAccountActivity.class);
                         intent.putExtra("token", response.body().getToken());
                         startActivity(intent);

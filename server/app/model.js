@@ -17,7 +17,12 @@ class Photo {
     }
     async addTag(tag){
         return new Promise((resolve, reject) => {
-            this.tags.push(tag)
+            console.log("Photo - "+ this.id + ", adding tag: ");
+            console.log(tag);
+            if(this.tags.find(i=>{return i.name == tag.name}) == null){
+                this.tags.push(tag)
+            }
+          
             resolve()
         })
     }
