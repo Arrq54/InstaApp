@@ -11,7 +11,7 @@ const imageRouter = async (req, res) => {
         //ALL PHOTOS
        
         res.end(JSON.stringify(jsonController.getAllPhotos()))
-
+ 
 
     }else if(req.url.match(/\/api\/photos\/getfile\/([0-9]+)/) && req.method == "GET"){
        

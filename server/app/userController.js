@@ -27,7 +27,7 @@ module.exports = {
                     }
                 );
     
-                new model.User(id, fields.name, fields.lastName, fields.email, false, fields.password)
+                new model.User(id, fields.name, fields.lastName, fields.email, false, fields.password, "")
                 resolve({token: `http://${ip}:${process.env.APP_PORT}/api/user/confirm/${token}`})
             })
 
@@ -84,6 +84,35 @@ module.exports = {
              }
              resolve({success: false})
         })
+    },
+    getInfo: (req)=>{
+        return new Promise(async (resolve, reject) => {
+            formidable({multiples: true}).parse(req, async function(err, fields, files){
+                console.log(fields);
+                if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
+                    // czytam dane z nagłowka
+                    let token = req.headers.authorization.split(" ")[1]
+                    let decoded = await jwt.verify(token, process.env.JWT_KEY)
+                    
+                    let id = decoded.id;
+
+                    let user = model.usersArray.find(i=>{return i.id == id})
+
+                    console.log(user);
+
+                    if(user != null){
+                        resolve({
+                            name: user.name,
+                            lastName: user.lastName,
+                            email: user.email,
+                            bio: user.bio
+                        })
+                    }
+                 }
+                 resolve({success: false})
+            })
+        })
+          
     }
     
 }

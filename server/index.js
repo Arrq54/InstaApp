@@ -17,7 +17,6 @@ http.createServer(async (req, res) => {
     //tags
 
     else if (req.url.search("/api/tags") != -1) {
-      console.log("Use tags router");
        await tagsRouter(req, res)
     }
 
@@ -29,4 +28,4 @@ http.createServer(async (req, res) => {
    }
 
 })
-.listen(PORT, () => console.log("listen on 3000"))
+.listen(PORT, () => console.log('\x1b[32m%s\x1b[0m', "Server started, PORT: " + PORT))

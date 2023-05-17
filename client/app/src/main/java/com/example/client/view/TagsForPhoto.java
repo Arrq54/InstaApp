@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.client.R;
 import com.example.client.api.GetPhotosAPI;
@@ -74,7 +75,12 @@ public class TagsForPhoto extends Fragment {
                 Chip chip = (Chip) group.getChildAt(i);
                 chip.setOnCheckedChangeListener((compoundButton, b) -> {
                     if (chip.isChecked()) {
-                        listOfTags.add(new TagChipInfo((Integer) chip.getTag(), (String) chip.getText()));
+                        if(listOfTags.size() < 4){
+                            listOfTags.add(new TagChipInfo((Integer) chip.getTag(), (String) chip.getText()));
+                        }else{
+                            Toast.makeText(getContext(), "Max 4 tags", Toast.LENGTH_SHORT).show();
+                        }
+
 
                     }else{
                         int ind=0;
@@ -105,7 +111,12 @@ public class TagsForPhoto extends Fragment {
                    }
                 }
                 if(flag){
-                    listOfTags.add(new TagChipInfo(123321,text ));
+
+                    if(listOfTags.size() < 4){
+                        listOfTags.add(new TagChipInfo(123321,text ));
+                    }else{
+                        Toast.makeText(getContext(), "Max 4 tags", Toast.LENGTH_SHORT).show();
+                    }
                     refreshCurrentTags();
                 }
 

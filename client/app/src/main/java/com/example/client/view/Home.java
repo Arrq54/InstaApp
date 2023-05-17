@@ -43,7 +43,7 @@ public class Home extends Fragment {
         homePageViewModel.setUp();
         homePageViewModel.getObservedPhotos().observe(getViewLifecycleOwner(), s -> {
 
-            RecAdapterHomePage adapter = new RecAdapterHomePage(s);
+            RecAdapterHomePage adapter = new RecAdapterHomePage(s, ((MainActivity)getActivity()));
             homeBinding.recyclerView.setAdapter(adapter);
         });
 

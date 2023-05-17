@@ -100,7 +100,7 @@ public class AddPhotoUpload extends Fragment {
 
                     @Override
                     public void onFailure(Call<Photo> call, Throwable t) {
-
+                        Log.d("logdev", t.toString());
                     }
                 });
             }

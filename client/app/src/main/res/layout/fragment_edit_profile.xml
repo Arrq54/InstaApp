@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.EditProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="50dp"
+        android:weightSum="510"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Edit your profile"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_weight="119"
+            android:fontFamily="@font/nunitosans_bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="your_nick"
+            android:textAlignment="center"
+            android:textSize="13dp"
+            android:gravity="center"
+            android:layout_weight="119"
+            android:fontFamily="@font/nunitosans_regular"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="98"
+            android:gravity="center">
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="80dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/pfp_placeholder2"
+                    android:clipToPadding="false"
+                    android:id="@+id/pfp"
+                    android:elevation="22dp"
+                    android:background="@drawable/shadow"/>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:orientation="vertical"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:boxBackgroundMode="outline"
+                app:counterEnabled="true"
+                android:gravity="center"
+                android:layout_gravity="center"
+                app:counterMaxLength="60">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Edit your bio"
+                    android:inputType="textMultiLine"
+                    android:lines="3"
+                    android:id="@+id/bio"
+                    android:textSize="12dp"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLength="60" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="105"
+            android:weightSum="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    app:counterMaxLength="20">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Edit email"
+                        android:inputType="text"
+                        android:id="@+id/email"
+                        android:textSize="12dp"
+                        android:fontFamily="@font/nunitosans_regular"
+                        android:maxLength="20" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                   android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:counterEnabled="true"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    app:counterMaxLength="20">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Edit last name"
+                        android:inputType="text"
+                        android:id="@+id/lastName"
+                        android:textSize="12dp"
+                        android:fontFamily="@font/nunitosans_regular"
+                        android:maxLength="20" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:text="CONFIRM"
+            android:layout_gravity="center"
+            android:id="@+id/loginButton"
+            app:cornerRadius="15dp"/>
+
+
+    </LinearLayout>
+</FrameLayout>
+</layout>

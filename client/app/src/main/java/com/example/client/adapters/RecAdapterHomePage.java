@@ -1,5 +1,6 @@
 package com.example.client.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.client.R;
+import com.example.client.model.ClickedPostData;
 import com.example.client.model.IpAddress;
 import com.example.client.model.Photo;
 import com.example.client.model.Tag;
+import com.example.client.view.MainActivity;
 
 import java.util.List;
 
 public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.ViewHolder> {
     private List<Photo> photosList;
-    public RecAdapterHomePage(List<Photo> list) {
+    private Context context;
+    public RecAdapterHomePage(List<Photo> list, Context context) {
 
 
         this.photosList = list;
+        this.context = context;
     }
     @NonNull
     @Override
@@ -47,11 +52,11 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
 //        holder.description.setText(photo.getLastChange());
 
         holder.img.setOnClickListener(v->{
-            String txt = "";
-            for(Tag tag: photo.getTags()){
-                txt += tag.getName() + " ";
-            }
-            Toast.makeText(v.getContext(), txt, Toast.LENGTH_SHORT).show();
+            ClickedPostData.setPostURL(IpAddress.ip + "/api/photos/getfile/"+photo.getId());
+            ClickedPostData.setDescription(photo.getLastChange());
+            ClickedPostData.setUsername(photo.getAlbum());
+            ClickedPostData.setTags(photo.getTags());
+            ((MainActivity)context).setPost();
         });
 
 

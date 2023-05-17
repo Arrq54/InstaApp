@@ -17,8 +17,8 @@ class Photo {
     }
     async addTag(tag){
         return new Promise((resolve, reject) => {
-            console.log("Photo - "+ this.id + ", adding tag: ");
-            console.log(tag);
+            // console.log("Photo - "+ this.id + ", adding tag: ");
+            // console.log(tag);
             if(this.tags.find(i=>{return i.name == tag.name}) == null){
                 this.tags.push(tag)
             }
@@ -27,7 +27,7 @@ class Photo {
         })
     }
     setTags(tags){
-        console.log(tags);
+        // console.log(tags);
         this.tags = tags
     }
     
@@ -49,13 +49,15 @@ let tagsArray = []
 
 
 class User{
-    constructor(id, name, lastName, email, confirmed, password){
+    constructor(id, name, lastName, email, confirmed, password, bio, pfp){
         this.id = id
         this.name = name;
         this.lastName = lastName
         this.email = email
         this.confimred = confirmed;
-        this.password = password
+        this.password = password;
+        this.bio = bio;
+        this.pfp = pfp;
 
         usersArray.push(this)
    

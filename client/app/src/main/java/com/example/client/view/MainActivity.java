@@ -31,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private UserProfile userProfile;
     private AddPhotoUpload addPhotoUpload;
     private TagsForPhoto tagsForPhoto;
+    private PostFragment postFragment;
     private  AtomicReference<MenuItem> previouslySelected;
+    private EditProfileFragment editProfileFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         userProfile = new UserProfile();
         addPhotoUpload = new AddPhotoUpload();
         tagsForPhoto = new TagsForPhoto();
-
+        postFragment = new PostFragment();
+        editProfileFragment = new EditProfileFragment();
         replaceFragment(homeFragment, "home");
 
 
@@ -110,13 +113,16 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             switch(id){
-                case R.id.thememode:
-                    if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    }else{
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    }
+//                case R.id.thememode:
+//                    if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//                    }else{
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//                    }
 
+//                    break;
+                case R.id.editprofile:
+                    replaceFragment(editProfileFragment, "editprofile");
                     break;
                 case R.id.ip:
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -215,5 +221,20 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    public void setPost(){
+        previouslySelected.get().setIcon(R.drawable.home);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.root, postFragment, "post")
+                .commit();
+    }
 
+    @Override
+    public void onBackPressed() {
+        if(postFragment.isVisible()){
+            setHomeFragment();
+        }else{
+            super.onBackPressed();
+        }
+    }
 }

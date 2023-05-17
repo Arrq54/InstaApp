@@ -20,7 +20,7 @@ module.exports = {
 
     createNewPhoto: (data)=>{
         //new photo
-        console.log("Uploaded:" + data.url);
+        // console.log("Uploaded:" + data.url);
         return new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp)
     },
     getAllPhotos: ()=>{
@@ -69,10 +69,10 @@ module.exports = {
         
         return new Promise((resolve, reject) => {
             form.parse(req, function(err, fields, files) {
-                console.log("================");
-                console.log(fields);
-                console.log("================");
-                console.log("Adding tags to photo with id: " + fields.photoid);
+                // console.log("================");
+                // console.log(fields);
+                // console.log("================");
+                // console.log("Adding tags to photo with id: " + fields.photoid);
                 let photo = model.photosArray.find((i)=>{return i.id == fields.photoid});
                 
                 if(photo != null && photo.tags.length == 0){
@@ -108,7 +108,7 @@ module.exports = {
     deleteTagFromPhoto: async (req)=>{
         return new Promise((resolve, reject) => {
             form.parse(req, function(err, fields, files) {
-                console.log(fields);
+                // console.log(fields);
                 let photo = model.photosArray.find((i)=>{return i.id == fields.photoid});
                 if(photo){
                     photo.setTags(photo.tags.filter(i=>{return i.id !=fields.tagid }))

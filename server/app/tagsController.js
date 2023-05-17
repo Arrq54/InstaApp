@@ -60,7 +60,7 @@ module.exports = {
                 
 
 
-                console.log(fields);
+                // console.log(fields);
                
                 if(fields.tags != undefined){
                     if(!Array.isArray(fields.tags)){

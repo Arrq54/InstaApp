@@ -3,6 +3,7 @@ package com.example.client.api;
 import com.example.client.model.AuthResponse;
 import com.example.client.model.LoginResponse;
 import com.example.client.model.Token;
+import com.example.client.model.UserInfoResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -29,4 +30,8 @@ public interface UsersAPI {
 
     @POST("/api/user/auth")
     Call<AuthResponse> postAuthData(@Header("Authorization") String token);
+
+    @FormUrlEncoded
+    @POST("/api/user/getInfo")
+    Call<UserInfoResponse> postUserInfo(@Field("username") String username, @Header("Authorization") String token);
 }
