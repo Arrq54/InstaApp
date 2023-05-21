@@ -2,6 +2,8 @@ package com.example.client.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -11,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MenuItem;
@@ -34,9 +37,27 @@ public class MainActivity extends AppCompatActivity {
     private PostFragment postFragment;
     private  AtomicReference<MenuItem> previouslySelected;
     private EditProfileFragment editProfileFragment;
+    private String[] REQUIRED_PERMISSIONS = new String[]{
+            "android.permission.ACCESS_FINE_LOCATION",
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE"
+    };
+    private int PERMISSIONS_REQUEST_CODE = 100;
+    private boolean checkIfPermissionsGranted() {
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!checkIfPermissionsGranted()) {
+            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, PERMISSIONS_REQUEST_CODE);
+        }
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -193,7 +214,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void replaceFragment(Fragment fragment, String tag) {
-
+        if(tag == "userProfile"){
+            userProfile = new UserProfile();
+        }else if(tag == "editprofile"){
+            editProfileFragment = new EditProfileFragment();
+        }
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.root, fragment, tag)

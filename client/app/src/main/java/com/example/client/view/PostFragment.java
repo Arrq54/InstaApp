@@ -33,6 +33,8 @@ public class PostFragment extends Fragment {
         postBinding.username.setText(ClickedPostData.getUsername());
         postBinding.description.setText(ClickedPostData.getDescription());
         postBinding.usernamePost.setText(ClickedPostData.getUsername());
+
+        postBinding.location.setText(ClickedPostData.getLocation().getName());
         ArrayList<Tag> tags = ClickedPostData.getTags();
 
         Glide.with(getContext())

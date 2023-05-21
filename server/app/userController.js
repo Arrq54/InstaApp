@@ -2,8 +2,9 @@ const bcrypt = require('bcryptjs');
 const model = require("./model.js")
 const formidable = require('formidable');
 const jwt = require('jsonwebtoken');
-const { log } = require('console');
-
+const fs = require('fs');
+const path = require('path');
+const mainPath = path.join(__dirname, "../");
 const form = formidable({ multiples: true });
 const  generateId = ()=>{
     return String(Date.now()) +Math.floor(Math.random() * 25001);
@@ -50,7 +51,7 @@ module.exports = {
     },
     async login(req){
         return new Promise((resolve, reject) => {
-
+           
             form.parse(req, async function(err, fields, files) {
                 let user = model.usersArray.find(i=>{return i.name == fields.username})
                 if(user){
@@ -64,7 +65,7 @@ module.exports = {
                                 expiresIn: "60d" // "1m", "1d", "24h"
                             }
                         );
-                        resolve({success: true, token: token, username: user.name})
+                        resolve({success: true, token: token, username: user.name, id: user.id})
                     }else{
                         resolve({success: false, token: ""})
                     }
@@ -102,7 +103,8 @@ module.exports = {
 
                     if(user != null){
                         resolve({
-                            name: user.name,
+                            id: user.id,
+                            name: user.name, 
                             lastName: user.lastName,
                             email: user.email,
                             bio: user.bio
@@ -112,7 +114,62 @@ module.exports = {
                  resolve({success: false})
             })
         })
-          
+    },
+    update: (req)=>{
+        const form = formidable({ multiples: true });
+            return new Promise((resolve, reject) => {
+                form.parse(req, (err, fields, files) => {
+                    console.log(fields);
+                    console.log(files);
+                    let dir = `./uploads/profile_pictures`
+                    if (!fs.existsSync(dir)){
+                        fs.mkdirSync(dir);
+                    }
+
+                    let file = files.file;
+
+                    try {
+                        let newFileName = file.path.split("\\");
+                        newFileName = newFileName[newFileName.length - 1];
+
+                        let ext = file.name.split(".")[1]
+
+                        var newPath =  mainPath +"/"+dir+ '/'+fields.id + "."+ext
+        
+                        var rawData = fs.readFileSync(file.path)
+        
+                        fs.writeFile(newPath, rawData, function(err){
+                            if(err){
+                                console.log(err);
+                                reject("file system error")
+                            }else{
+                                fs.stat(newPath, (err, stats) => {
+                                    if(err){
+                                        console.log(err);
+                                        reject("file system error")
+                                    }else{
+                                        newPath = "/uploads" + newPath.split("uploads")[1]
+                                        resolve({
+                                            originalName: file.name,
+                                            url: newPath,
+                                            album: fields.album,
+                                            description: fields.description,
+                                            timestamp: stats.birthtime
+                                        })
+                                    }
+                                   
+                                })
+                                
+                            }
+                        })
+                      } catch (error) {
+                        console.log(error);
+                        reject("form parser error")
+                      }
+
+                    resolve({})
+                })
+            })
     }
     
 }

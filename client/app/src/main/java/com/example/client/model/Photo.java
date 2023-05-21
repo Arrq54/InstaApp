@@ -10,8 +10,17 @@ public class Photo {
     public String lastChange;
     public ArrayList<History> history;
     public ArrayList<Tag> tags;
+    public LocationForPhoto location;
 
-    public Photo(String id, String album, String originalName, String url, String lastChange, ArrayList<History> history, ArrayList<Tag> tags) {
+    public LocationForPhoto getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationForPhoto location) {
+        this.location = location;
+    }
+
+    public Photo(String id, String album, String originalName, String url, String lastChange, ArrayList<History> history, ArrayList<Tag> tags, LocationForPhoto location) {
         this.id = id;
         this.album = album;
         this.originalName = originalName;
@@ -19,6 +28,7 @@ public class Photo {
         this.lastChange = lastChange;
         this.history = history;
         this.tags = tags;
+        this.location = location;
     }
 
     public String getId() {
@@ -87,6 +97,7 @@ public class Photo {
                 ", lastChange='" + lastChange + '\'' +
                 ", history=" + history +
                 ", tags=" + tags +
+                ", location=" + location +
                 '}';
     }
 }

@@ -45,10 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", null);
         String username = sharedPreferences.getString("username", null);
-
+        String id = sharedPreferences.getString("id", null);
         if (token != null && username !=null) {
             UserData.setUsername(username);
             UserData.setToken(token);
+            UserData.setId(id);
 
             Call<AuthResponse> call = usersAPI.postAuthData("Bearer " + token);
             call.enqueue(new Callback<AuthResponse>() {
@@ -102,9 +103,12 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("username", response.body().getUsername());
                         editor.putString("token", response.body().getToken());
+                        editor.putString("id", response.body().getId());
                         editor.apply();
+
                         UserData.setUsername(response.body().getUsername());
                         UserData.setToken(response.body().getToken());
+                        UserData.setId(response.body().getId());
 
                         changeActivity();
                     }else{

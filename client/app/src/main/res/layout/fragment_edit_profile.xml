@@ -30,6 +30,7 @@
             android:text="your_nick"
             android:textAlignment="center"
             android:textSize="13dp"
+            android:id="@+id/nickname"
             android:gravity="center"
             android:layout_weight="119"
             android:fontFamily="@font/nunitosans_regular"/>
@@ -107,7 +108,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:layout_gravity="center"
-                    app:counterMaxLength="20">
+                    app:counterMaxLength="50">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -117,7 +118,7 @@
                         android:id="@+id/email"
                         android:textSize="12dp"
                         android:fontFamily="@font/nunitosans_regular"
-                        android:maxLength="20" />
+                        android:maxLength="50" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -151,7 +152,7 @@
             android:layout_height="50dp"
             android:text="CONFIRM"
             android:layout_gravity="center"
-            android:id="@+id/loginButton"
+            android:id="@+id/confirm"
             app:cornerRadius="15dp"/>
 
 

@@ -1,14 +1,14 @@
 const model = require("./model.js")
 const formidable = require('formidable');
 const fs = require('fs');
-const path = require('path')
-
+const path = require('path');
 const mainPath = path.join(__dirname, "../");
 module.exports = {
-    uploadFle(req){
+    uploadFle(req){ 
         const form = formidable({ multiples: true });
             return new Promise((resolve, reject) => {
                 form.parse(req, (err, fields, files) => {
+                    console.log(fields);
                     //CREATE ALBUM IF NOT EXISTS
                     let dir = `./uploads/${fields.album}`
                     if (!fs.existsSync(dir)){
@@ -42,7 +42,8 @@ module.exports = {
                                             url: newPath,
                                             album: fields.album,
                                             description: fields.description,
-                                            timestamp: stats.birthtime
+                                            timestamp: stats.birthtime,
+                                            location: JSON.parse(fields.location)
                                         })
                                     }
                                    

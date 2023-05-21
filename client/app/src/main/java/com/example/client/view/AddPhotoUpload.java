@@ -1,5 +1,6 @@
 package com.example.client.view;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.example.client.api.UploadPhotoAPI;
 import com.example.client.databinding.FragmentAddPhotoUploadBinding;
 import com.example.client.model.Imager;
 import com.example.client.model.IpAddress;
+import com.example.client.model.LocationChoosen;
+import com.example.client.model.LocationForPhoto;
 import com.example.client.model.Photo;
 import com.example.client.model.Tag;
 import com.example.client.model.TagChipInfo;
@@ -90,7 +93,12 @@ public class AddPhotoUpload extends Fragment {
                         .build();
 
                 UploadPhotoAPI uploadPhotoAPI = retrofit.create(UploadPhotoAPI.class);
-                Call<Photo> call = uploadPhotoAPI.sendImage(album, description, body);
+
+                LocationForPhoto location = LocationChoosen.getLocationForPhoto();
+
+
+
+                Call<Photo> call = uploadPhotoAPI.sendImage(album, description, body, location);
                 call.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
@@ -111,6 +119,12 @@ public class AddPhotoUpload extends Fragment {
             Imager.description = addPhotoUploadBinding.postDescription.getText().toString();
             ((MainActivity)getActivity()).setTagsForPhoto();
         });
+
+        addPhotoUploadBinding.maps.setOnClickListener(view->{
+            Intent intent = new Intent(getActivity(), MapActivity.class);
+            startActivity(intent);
+        });
+
 
 
         return addPhotoUploadBinding.getRoot();

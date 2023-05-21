@@ -7,6 +7,15 @@ public class ClickedPostData {
     private static String postURL;
     private static String description;
     private static ArrayList<Tag> tags;
+    private static LocationForPhoto location;
+
+    public static LocationForPhoto getLocation() {
+        return location;
+    }
+
+    public static void setLocation(LocationForPhoto location) {
+        ClickedPostData.location = location;
+    }
 
     public static ArrayList<Tag> getTags() {
         return tags;

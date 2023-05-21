@@ -1,5 +1,5 @@
 class Photo {
-    constructor(id, album, originalName, url, lastChange, timestamp) {
+    constructor(id, album, originalName, url, lastChange, timestamp, location) {
         this.id = id;
         this.album = album;
         this.originalName = originalName;
@@ -12,7 +12,7 @@ class Photo {
             }
         ]
         this.tags = []
-
+        this.location = location
         photosArray.push(this);
     }
     async addTag(tag){

@@ -21,7 +21,8 @@ module.exports = {
     createNewPhoto: (data)=>{
         //new photo
         // console.log("Uploaded:" + data.url);
-        return new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp)
+        console.log(data);
+        return new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp, data.location)
     },
     getAllPhotos: ()=>{
         return model.photosArray;

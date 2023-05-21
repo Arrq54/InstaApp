@@ -56,6 +56,7 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
             ClickedPostData.setDescription(photo.getLastChange());
             ClickedPostData.setUsername(photo.getAlbum());
             ClickedPostData.setTags(photo.getTags());
+            ClickedPostData.setLocation(photo.getLocation());
             ((MainActivity)context).setPost();
         });
 

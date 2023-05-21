@@ -5,6 +5,16 @@ import java.util.ArrayList;
 public class UserData {
     private static String token;
     private static String username;
+    private static String id ="";
+
+    public static String getId() {
+        return id;
+    }
+
+    public static void setId(String id) {
+        UserData.id = id;
+    }
+
     private static ArrayList<TagChipInfo> listofTags = new ArrayList<>();
 
 

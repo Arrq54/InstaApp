@@ -1,5 +1,6 @@
 package com.example.client.api;
 
+import com.example.client.model.LocationForPhoto;
 import com.example.client.model.Photo;
 import com.example.client.model.UploadResponse;
 
@@ -17,7 +18,8 @@ public interface UploadPhotoAPI {
     Call<Photo> sendImage(
             @Part("album") RequestBody album,
             @Part("description") RequestBody description,
-            @Part MultipartBody.Part file
-    );
+            @Part MultipartBody.Part file,
+            @Part("location")LocationForPhoto location
+            );
 
 }
