@@ -1,5 +1,6 @@
 package com.example.client.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +36,16 @@ public class PostFragment extends Fragment {
         postBinding.usernamePost.setText(ClickedPostData.getUsername());
 
         postBinding.location.setText(ClickedPostData.getLocation().getName());
+
+
+        postBinding.location.setOnClickListener(tv->{
+            Intent intent = new Intent(getActivity(), ShowLocationOnMap.class);
+            intent.putExtra("id", ClickedPostData.getLocation().getId());
+            startActivity(intent);
+        });
+
+
+
         ArrayList<Tag> tags = ClickedPostData.getTags();
 
         Glide.with(getContext())

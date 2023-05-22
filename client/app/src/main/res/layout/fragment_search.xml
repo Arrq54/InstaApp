@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.Search">
+        tools:context=".view.Search"
+        android:paddingTop="40dp">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:fontFamily="@font/nunitosans_regular"
-            android:text="SEARCH FRAGMENT" />
+            android:orientation="vertical">
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="16dp"
+                android:layout_gravity="center_horizontal"
+                app:boxBackgroundMode="outline">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Search"
+                    android:id="@+id/search"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list"/>
+        </LinearLayout>
+
 
     </FrameLayout>
 </layout>

@@ -170,6 +170,18 @@ module.exports = {
                     resolve({})
                 })
             })
+    }, 
+    async getAllUsers(){
+        return new Promise((resolve, reject) => {
+            let list = fs.readdirSync(mainPath + "/uploads")
+            resolve(list)
+        })
+    }, 
+    async getUsers(query){
+        return new Promise((resolve, reject) => {
+            let list = fs.readdirSync(mainPath + "/uploads")
+            list = list.filter(i=>{return i.startsWith(query)})
+            resolve(list)
+        })
     }
-    
 }

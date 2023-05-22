@@ -8,7 +8,14 @@ const userRouter = async (req, res) => {
 
         res.end(JSON.stringify(await userController.register(req)))
 
-    }else if(req.url.match(/\/api\/user\/confirm\/(.*?)/) && req.method == "GET"){
+    } if(req.url == "/api/user/all" && req.method == "GET"){
+
+        res.end(JSON.stringify(await userController.getAllUsers()))
+
+    }else if(req.url.match(/\/api\/user\/all\/(.*?)/) && req.method == "GET"){
+        res.end(JSON.stringify(await userController.getUsers(req.url.split("/")[4])))
+    }
+    else if(req.url.match(/\/api\/user\/confirm\/(.*?)/) && req.method == "GET"){
 
         res.end(JSON.stringify(await userController.confirm(req.url.split("/")[4])))
 
@@ -24,6 +31,7 @@ const userRouter = async (req, res) => {
     }else if(req.url == "/api/user/update" && req.method == "POST"){
         res.end(JSON.stringify(await userController.update(req)))
     }
+    
     else if(req.url.match(/\/api\/user\/pfp\/([0-9]+)/) && req.method == "GET"){
         console.log(req.url.split("/")[4]);
         let path2 = path.resolve(__dirname, `../uploads/profile_pictures/${req.url.split("/")[4]}.jpg`)

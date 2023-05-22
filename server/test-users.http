@@ -13,6 +13,11 @@ Content-Type: application/json
 GET  http://localhost:3000/api/user/confirm/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE2ODI3Nzg0OTcxMTY1NCIsImlhdCI6MTY4Mjc3ODQ5NywiZXhwIjoxNjgyNzgyMDk3fQ.Rq8ORc3UZfbOM3UOA2qTIyksWwshRl0ZZ1pxVRMqPF4 HTTP/1.1
 
 ###
+GET  http://localhost:3000/api/user/all HTTP/1.1
+###
+GET  http://localhost:3000/api/user/all HTTP/1.1
+
+###
 POST http://localhost:3000/api/user/login HTTP/1.1
 Content-Disposition: form-data; name="data"
 Content-Type: application/json

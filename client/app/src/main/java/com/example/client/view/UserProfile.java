@@ -51,7 +51,7 @@ public class UserProfile extends Fragment {
                 = new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL);
         userProfileBinding.recyclerView.setLayoutManager(staggeredGridLayoutManager);
         profilePhotosViewModel.getObservedPhotos().observe(getViewLifecycleOwner(), s -> {
-            RecAdapterProfilePics adapter = new RecAdapterProfilePics(s);
+            RecAdapterProfilePics adapter = new RecAdapterProfilePics(s, getActivity());
             userProfileBinding.recyclerView.setAdapter(adapter);
         });
 
