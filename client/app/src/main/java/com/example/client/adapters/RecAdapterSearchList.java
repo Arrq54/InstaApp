@@ -23,7 +23,7 @@ import com.example.client.view.MainActivity;
 
 import java.util.List;
 
-public class RecAdapterSearchList extends RecyclerView.Adapter<RecAdapterSearchList.ViewHolder> {
+public class RecAdapterSearchList extends RecyclerView.Adapter<RecAdapterSearchList.ViewHolder2> {
     private List<String> list;
     private Context context;
 
@@ -32,20 +32,19 @@ public class RecAdapterSearchList extends RecyclerView.Adapter<RecAdapterSearchL
     }
 
     public RecAdapterSearchList(List<String> list, Context context) {
-        
         this.list = list;
         this.context = context;
     }
     @NonNull
     @Override
-    public RecAdapterSearchList.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecAdapterSearchList.ViewHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.search_result, parent, false);
-        return new RecAdapterSearchList.ViewHolder(v);
+        return new RecAdapterSearchList.ViewHolder2(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecAdapterSearchList.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecAdapterSearchList.ViewHolder2 holder, int position) {
         Log.d("logdev", String.valueOf(position));
         holder.username.setText(list.get(position));
 
@@ -57,13 +56,14 @@ public class RecAdapterSearchList extends RecyclerView.Adapter<RecAdapterSearchL
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder2 extends RecyclerView.ViewHolder {
 
         private TextView username;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder2(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.text);
+            itemView.findViewById(R.id.listitem).setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,875));;
         }
     }
 }

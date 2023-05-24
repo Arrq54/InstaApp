@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.client.adapters.RecAdapterHomePage;
 import com.example.client.adapters.RecAdapterSearchList;
@@ -28,18 +30,28 @@ public class Search extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         searchBinding = FragmentSearchBinding.inflate(getLayoutInflater());
+        // Inflate the layout for this fragment
+        StaggeredGridLayoutManager staggeredGridLayoutManager
+                = new StaggeredGridLayoutManager(1, LinearLayout.VERTICAL);
+
+        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        staggeredGridLayoutManager.offsetChildrenVertical(16);
+
+
+        searchBinding.list.setLayoutManager(staggeredGridLayoutManager);
+
+
 
         searchListViewModel = new ViewModelProvider(Search.this).get(SearchListViewModel.class);
 
         searchListViewModel.getSearchResult("");
-        RecAdapterSearchList adapter = new RecAdapterSearchList(new ArrayList<>(), ((MainActivity) getActivity()));
-        searchBinding.list.setAdapter(adapter);
+
+
         searchListViewModel.getUsersList().observe(getViewLifecycleOwner(), s -> {
             Log.d("logdev", s.toString());
-            adapter.setList(s);
+            RecAdapterSearchList adapter = new RecAdapterSearchList(s, ((MainActivity) getActivity()));
+            searchBinding.list.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         });
 
