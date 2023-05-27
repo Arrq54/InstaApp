@@ -4,6 +4,7 @@ const formidable = require('formidable');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const { log } = require('console');
 const mainPath = path.join(__dirname, "../");
 const form = formidable({ multiples: true });
 const  generateId = ()=>{
@@ -116,18 +117,27 @@ module.exports = {
         })
     },
     update: (req)=>{
+        console.log("POST - USER PROFILE UPDATE");
         const form = formidable({ multiples: true });
             return new Promise((resolve, reject) => {
                 form.parse(req, (err, fields, files) => {
-                    console.log(fields);
-                    console.log(files);
+                    let userToEdit = model.usersArray.find(i=> {return i.id == fields.id});
+                    if(fields.bio != undefined){
+                        userToEdit.bio = fields.bio;
+                    }
+                    if(fields.email != undefined){
+                        userToEdit.email = fields.email;
+                    }
+                    if(fields.lastName != undefined){
+                        userToEdit.lastName = fields.email
+                    }
                     let dir = `./uploads/profile_pictures`
                     if (!fs.existsSync(dir)){
                         fs.mkdirSync(dir);
-                    }
+                    } 
 
                     let file = files.file;
-
+ 
                     try {
                         let newFileName = file.path.split("\\");
                         newFileName = newFileName[newFileName.length - 1];
@@ -170,6 +180,25 @@ module.exports = {
                     resolve({})
                 })
             })
+    },updateNoPfp: (req)=>{
+        console.log("POST - USER PROFILE UPDATE, NO PFP");
+
+        const form = formidable({ multiples: true });
+            return new Promise((resolve, reject) => {
+                form.parse(req, (err, fields, files) => {
+                    let userToEdit = model.usersArray.find(i=> {return i.id == fields.id});
+                    if(fields.bio != undefined){
+                        userToEdit.bio = fields.bio;
+                    }
+                    if(fields.email != undefined){
+                        userToEdit.email = fields.email;
+                    }
+                    if(fields.lastName != undefined){
+                        userToEdit.lastName = fields.email
+                    }
+                    resolve({})
+                })
+            })
     }, 
     async getAllUsers(){
         return new Promise((resolve, reject) => {
@@ -180,8 +209,15 @@ module.exports = {
     async getUsers(query){
         return new Promise((resolve, reject) => {
             let list = fs.readdirSync(mainPath + "/uploads")
+            list = list.filter(i=>{return i != "profile_pictures"})
             list = list.filter(i=>{return i.startsWith(query)})
             resolve(list)
         })
+    },
+    async getBioById(id){
+        return {bio: model.usersArray.find(i=>{return i.id == id})!=undefined?model.usersArray.find(i=>{return i.id == id}).bio:""}
+    },
+    async getBioByName(name){
+        return {bio: model.usersArray.find(i=>{return i.name == name})!=undefined?model.usersArray.find(i=>{return i.name == name}).bio:""}
     }
 }

@@ -10,12 +10,36 @@
     android:orientation="vertical"
     >
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/imgToUpload"
         android:layout_weight="2"
-        android:layout_marginTop="40dp"/>
+        android:id="@+id/imageParent"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="40dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/imgToUpload"/>
+
+        <VideoView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/videoToUpload"
+            />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

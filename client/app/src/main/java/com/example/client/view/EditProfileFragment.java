@@ -43,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EditProfileFragment extends Fragment {
     private FragmentEditProfileBinding editProfileBinding;
+    private boolean changedPicture = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         editProfileBinding = FragmentEditProfileBinding.inflate(getLayoutInflater());
@@ -90,7 +91,7 @@ public class EditProfileFragment extends Fragment {
                             try {
 //                                Imager.bitmap =  MediaStore.Images.Media.getBitmap(AddPhoto.this.getActivity().getContentResolver(), Uri.parse(data.getDataString()));
                                 Imager.uri = Uri.parse(data.getDataString());
-
+                                changedPicture = true;
                                 editProfileBinding.pfp.setImageURI(Imager.uri);
 //                                    ((MainActivity)getActivity()).setAddPhotoUpload();
                             } catch (Exception e) {
@@ -110,7 +111,7 @@ public class EditProfileFragment extends Fragment {
 
         editProfileBinding.confirm.setOnClickListener(btn->{
             String filePath = "";
-            if (Imager.uri != null) {
+            if (Imager.uri != null && changedPicture == true) {
                 Cursor cursor = (EditProfileFragment.this.getActivity().getContentResolver().query(Imager.uri, null, null, null, null));
                 if (cursor != null) {
                     cursor.moveToFirst();
@@ -118,33 +119,40 @@ public class EditProfileFragment extends Fragment {
                     filePath = cursor.getString(columnIndex);
                     cursor.close();
                 }
+                File file = new File(filePath);
+                RequestBody fileRequest = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), fileRequest);
+                RequestBody idToUpdate = RequestBody.create(MultipartBody.FORM, id[0]);
+                RequestBody bio = RequestBody.create(MultipartBody.FORM, editProfileBinding.bio.getText().toString());
+                RequestBody email = RequestBody.create(MultipartBody.FORM, editProfileBinding.email.getText().toString());
+                RequestBody lastName = RequestBody.create(MultipartBody.FORM, editProfileBinding.lastName.getText().toString());
+                Call<UserUpdateInfoResponse> call2 = usersAPI.updateUserInfo(idToUpdate, bio, email, lastName, body);
+                call2.enqueue(new Callback<UserUpdateInfoResponse>() {
+                    @Override
+                    public void onResponse(Call<UserUpdateInfoResponse> call, Response<UserUpdateInfoResponse> response) {
+                        ((MainActivity)getActivity()).setHomeFragment();
+                    }
+                    @Override
+                    public void onFailure(Call<UserUpdateInfoResponse> call, Throwable t) {}
+                });
+            }else{
+                RequestBody idToUpdate = RequestBody.create(MultipartBody.FORM, id[0]);
+                RequestBody bio = RequestBody.create(MultipartBody.FORM, editProfileBinding.bio.getText().toString());
+                RequestBody email = RequestBody.create(MultipartBody.FORM, editProfileBinding.email.getText().toString());
+                RequestBody lastName = RequestBody.create(MultipartBody.FORM, editProfileBinding.lastName.getText().toString());
+                Call<UserUpdateInfoResponse> call2 = usersAPI.updateUserInfoNoPfp(idToUpdate, bio, email, lastName);
+                call2.enqueue(new Callback<UserUpdateInfoResponse>() {
+                    @Override
+                    public void onResponse(Call<UserUpdateInfoResponse> call, Response<UserUpdateInfoResponse> response) {
+                        ((MainActivity)getActivity()).setHomeFragment();
+                    }
+                    @Override
+                    public void onFailure(Call<UserUpdateInfoResponse> call, Throwable t) {}
+                });
             }
-            File file = new File(filePath);
-            RequestBody fileRequest = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), fileRequest);
-
-            RequestBody idToUpdate = RequestBody.create(MultipartBody.FORM, id[0]);
-            
-            RequestBody bio = RequestBody.create(MultipartBody.FORM, editProfileBinding.bio.getText().toString());
-            RequestBody email = RequestBody.create(MultipartBody.FORM, editProfileBinding.email.getText().toString());
-            RequestBody lastName = RequestBody.create(MultipartBody.FORM, editProfileBinding.lastName.getText().toString());
 
 
 
-
-            Call<UserUpdateInfoResponse> call2 = usersAPI.updateUserInfo(idToUpdate, bio, email, lastName, body);
-            
-            call2.enqueue(new Callback<UserUpdateInfoResponse>() {
-                @Override
-                public void onResponse(Call<UserUpdateInfoResponse> call, Response<UserUpdateInfoResponse> response) {
-                    Log.d("logdev", "success");
-                }
-
-                @Override
-                public void onFailure(Call<UserUpdateInfoResponse> call, Throwable t) {
-                    Log.d("logdev", t.toString());
-                }
-            });
         });
 
 

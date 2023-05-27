@@ -1,6 +1,7 @@
 package com.example.client.api;
 
 import com.example.client.model.AuthResponse;
+import com.example.client.model.Bio;
 import com.example.client.model.LoginResponse;
 import com.example.client.model.Token;
 import com.example.client.model.UserInfoResponse;
@@ -56,9 +57,21 @@ public interface UsersAPI {
             @Part MultipartBody.Part file
     );
 
+    @Multipart
+    @POST("/api/user/updateNoPfp")
+    Call<UserUpdateInfoResponse> updateUserInfoNoPfp(
+            @Part("id") RequestBody id,
+            @Part("bio") RequestBody bio,
+            @Part("email") RequestBody email,
+            @Part("lastName") RequestBody lastName
+    );
+
     @GET("/api/user/all")
     Call<List<String>> getAllUsers();
 
     @GET("/api/user/all/{query}")
     Call<List<String>> getUsers(@Path("query") String query);
+
+    @GET("/api/user/getBioByName/{name}")
+    Call<Bio> getBioByName(@Path("name") String name);
 }

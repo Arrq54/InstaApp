@@ -1,6 +1,8 @@
 package com.example.client.view;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,12 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.example.client.R;
 import com.example.client.databinding.FragmentPostBinding;
 import com.example.client.model.ClickedPostData;
 import com.example.client.model.IpAddress;
+import com.example.client.model.PostType;
 import com.example.client.model.Tag;
 import com.google.android.material.chip.Chip;
 
@@ -35,6 +41,7 @@ public class PostFragment extends Fragment {
         postBinding.description.setText(ClickedPostData.getDescription());
         postBinding.usernamePost.setText(ClickedPostData.getUsername());
 
+
         postBinding.location.setText(ClickedPostData.getLocation().getName());
 
 
@@ -48,9 +55,51 @@ public class PostFragment extends Fragment {
 
         ArrayList<Tag> tags = ClickedPostData.getTags();
 
+
+        if(ClickedPostData.getFiletype() == PostType.VIDEO){
+            postBinding.photo.setVisibility(ImageView.GONE);
+            postBinding.video.setVisibility(VideoView.VISIBLE);
+
+
+
+            MediaController mediaController = new MediaController(getContext());
+            postBinding.video.setMediaController(mediaController);
+            mediaController.setAnchorView(postBinding.video);
+
+            // URL of the image to be loaded
+            String imageUrl = ClickedPostData.getPostURL();
+
+            // Convert the URL to a Uri
+            Uri imageUri = Uri.parse(imageUrl);
+
+            // Set the Uri as the video source for the VideoView
+            postBinding.video.setVideoURI(imageUri);
+            postBinding.video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    postBinding.video.requestFocus();
+                    postBinding.video.start();
+
+                }
+            });
+
+
+
+            // Start playing the video
+
+
+        }else{
+
+            Glide.with(getContext())
+                    .load(ClickedPostData.getPostURL())
+                    .into(postBinding.photo);
+        }
+
+
+
         Glide.with(getContext())
-                .load(ClickedPostData.getPostURL())
-                .into(postBinding.photo);
+                .load(IpAddress.ip + "/api/user/pfpbyname/"+ ClickedPostData.getUsername())
+                .into(postBinding.pfp);
 
 
         for(Tag tag: tags){

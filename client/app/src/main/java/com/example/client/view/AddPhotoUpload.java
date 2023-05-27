@@ -2,6 +2,7 @@ package com.example.client.view;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,6 +15,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.VideoView;
 
 import com.example.client.R;
 import com.example.client.api.GetPhotosAPI;
@@ -25,6 +30,7 @@ import com.example.client.model.IpAddress;
 import com.example.client.model.LocationChoosen;
 import com.example.client.model.LocationForPhoto;
 import com.example.client.model.Photo;
+import com.example.client.model.PostType;
 import com.example.client.model.Tag;
 import com.example.client.model.TagChipInfo;
 import com.example.client.model.TagUploadResponse;
@@ -58,11 +64,63 @@ public class AddPhotoUpload extends Fragment {
         addPhotoUploadBinding = FragmentAddPhotoUploadBinding.inflate(getLayoutInflater());
 
 
-        try {
-            addPhotoUploadBinding.imgToUpload.setImageBitmap( MediaStore.Images.Media.getBitmap(AddPhotoUpload.this.getActivity().getContentResolver(), Imager.uri));
-        } catch (IOException e) {
-            e.printStackTrace();
-        };
+        if(Imager.type == PostType.VIDEO){
+
+            addPhotoUploadBinding.imgToUpload.setVisibility(ImageView.GONE);
+
+
+
+//            vv.setVideoPath(Imager.uri.getPath());
+            String id = Imager.uri.getPath().split("/")[Imager.uri.getPath().split("/").length - 1];
+
+
+
+            String selection = MediaStore.Video.Media._ID + " = ?";
+            String[] selectionArgs = new String[] { id };
+            Cursor cursor = getActivity().getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null, selection, selectionArgs, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int pathColumn = cursor.getColumnIndex(MediaStore.Video.Media.DATA);
+                String videoPath = cursor.getString(pathColumn);
+                Log.d("logdev", videoPath);
+
+
+                addPhotoUploadBinding.videoToUpload.setVideoPath(videoPath);
+                addPhotoUploadBinding.videoToUpload.start();
+
+
+                addPhotoUploadBinding.videoToUpload.setZOrderOnTop(true);
+
+                addPhotoUploadBinding.videoToUpload.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mp.setLooping(true);
+
+//
+                        float videoRatio = mp.getVideoWidth() / (float) mp.getVideoHeight();
+                        float screenRatio =  addPhotoUploadBinding.videoToUpload.getWidth() / (float)
+                                addPhotoUploadBinding.videoToUpload.getHeight();
+                        float scaleX = videoRatio / screenRatio;
+                        if (scaleX >= 1f) {
+                            addPhotoUploadBinding.videoToUpload.setScaleX(scaleX);
+                        }
+                    }
+                });
+                cursor.close();
+            }
+
+
+        }else{
+            addPhotoUploadBinding.videoToUpload.setVisibility(VideoView.GONE);
+            addPhotoUploadBinding.imgToUpload.setVisibility(VideoView.VISIBLE);
+            try {
+                addPhotoUploadBinding.imgToUpload.setImageBitmap( MediaStore.Images.Media.getBitmap(AddPhotoUpload.this.getActivity().getContentResolver(), Imager.uri));
+            } catch (IOException e) {
+                e.printStackTrace();
+            };
+
+        }
+
+
 
         if(Imager.description != null){
             addPhotoUploadBinding.postDescription.setText(Imager.description);

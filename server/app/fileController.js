@@ -20,7 +20,7 @@ module.exports = {
                         let newFileName = file.path.split("\\");
                         newFileName = newFileName[newFileName.length - 1];
 
-                        let ext = file.name.split(".")[1]
+                        let ext = file.name.split(".")[ file.name.split(".").length - 1]
 
                         var newPath =  mainPath +"/"+dir+ '/'+newFileName + "."+ext
         
@@ -37,14 +37,21 @@ module.exports = {
                                         reject("file system error")
                                     }else{
                                         newPath = "/uploads" + newPath.split("uploads")[1]
-                                        resolve({
+                                        let obj = {
                                             originalName: file.name,
                                             url: newPath,
                                             album: fields.album,
                                             description: fields.description,
                                             timestamp: stats.birthtime,
-                                            location: JSON.parse(fields.location)
-                                        })
+                                            location: {
+                                                id: "",
+                                                name: ""
+                                            }
+                                        }
+                                        if(fields.location != null){
+                                            obj.location = JSON.parse(fields.location)
+                                        }
+                                        resolve(obj)
                                     }
                                    
                                 })

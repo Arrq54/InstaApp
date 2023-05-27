@@ -1,6 +1,8 @@
 package com.example.client.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import com.example.client.databinding.FragmentAddPhotoBinding;
 import com.example.client.databinding.FragmentHomeBinding;
 import com.example.client.model.Imager;
+import com.example.client.model.PostType;
 
 import java.io.IOException;
 import java.net.URI;
@@ -51,18 +54,36 @@ public class AddPhoto extends Fragment {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
-
-                            //TODO TUTAJ RETROFIT UPLOAD ZDJECIA ITP
                         }
                     }
                 });
         addPhotoBinding.openGallery.setOnClickListener(v->{
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Choose a post type")
+                    .setPositiveButton("Photo", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            Imager.type = PostType.PHOTO;
+                            someActivityResultLauncher.launch(intent);
+                        }
+                    })
+                    .setNegativeButton("Video", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_PICK);
+                            intent.setType("video/*");
+                            Imager.type = PostType.VIDEO;
+                            someActivityResultLauncher.launch(intent);
+                        }
+                    })
+                    .setCancelable(true); // Allow cancellation by tapping outside the dialog or pressing the back button
 
-            Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
-            someActivityResultLauncher.launch(intent);
+
 
         });
         

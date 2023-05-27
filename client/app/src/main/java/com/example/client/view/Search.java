@@ -47,12 +47,17 @@ public class Search extends Fragment {
 
         searchListViewModel.getSearchResult("");
 
-
+        RecAdapterSearchList adapter = new RecAdapterSearchList(new ArrayList<>(), ((MainActivity) getActivity()));
+        searchBinding.list.setAdapter(adapter);
         searchListViewModel.getUsersList().observe(getViewLifecycleOwner(), s -> {
+
+            Log.d("logdev", "=============");
             Log.d("logdev", s.toString());
-            RecAdapterSearchList adapter = new RecAdapterSearchList(s, ((MainActivity) getActivity()));
-            searchBinding.list.setAdapter(adapter);
+            Log.d("logdev", "=============");
+            adapter.setList(s);
             adapter.notifyDataSetChanged();
+
+
         });
 
         TextWatcher textWatcher = new TextWatcher() {
@@ -66,7 +71,8 @@ public class Search extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {}
+            public void afterTextChanged(Editable editable) {
+            }
 
 
         };

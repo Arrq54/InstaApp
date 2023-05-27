@@ -9,6 +9,16 @@ public class ClickedPostData {
     private static ArrayList<Tag> tags;
     private static LocationForPhoto location;
 
+    public static PostType getFiletype() {
+        return filetype;
+    }
+
+    public static void setFiletype(PostType filetype) {
+        ClickedPostData.filetype = filetype;
+    }
+
+    private static PostType filetype;
+
     public static LocationForPhoto getLocation() {
         return location;
     }

@@ -1,6 +1,7 @@
 package com.example.client.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class RecAdapterProfilePics extends RecyclerView.Adapter<RecAdapterProfil
             ClickedPostData.setDescription(photo.getLastChange());
             ClickedPostData.setUsername(photo.getAlbum());
             ClickedPostData.setTags(photo.getTags());
+            Log.d("logdev", photo.getLocation().toString());
             ClickedPostData.setLocation(photo.getLocation());
             ((MainActivity)context).setPost();
         });

@@ -18,6 +18,7 @@ import com.example.client.R;
 import com.example.client.model.ClickedPostData;
 import com.example.client.model.IpAddress;
 import com.example.client.model.Photo;
+import com.example.client.model.PostType;
 import com.example.client.model.Tag;
 import com.example.client.view.MainActivity;
 
@@ -52,6 +53,10 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
 //        holder.description.setText(photo.getLastChange());
 
         holder.img.setOnClickListener(v->{
+            if(photo.getUrl().contains(".mp4")){
+                ClickedPostData.setFiletype(PostType.VIDEO);
+            }
+
             ClickedPostData.setPostURL(IpAddress.ip + "/api/photos/getfile/"+photo.getId());
             ClickedPostData.setDescription(photo.getLastChange());
             ClickedPostData.setUsername(photo.getAlbum());

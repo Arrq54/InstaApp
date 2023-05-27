@@ -22,6 +22,7 @@ import android.widget.EditText;
 import com.example.client.R;
 import com.example.client.databinding.ActivityMainBinding;
 import com.example.client.model.IpAddress;
+import com.example.client.model.SearchListClickedItem;
 import com.example.client.model.UserData;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -179,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                     editor.remove("token");
                     editor.apply();
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
                     break;
             }
 
@@ -197,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mainBinding.profile.setOnClickListener(view->{
+            SearchListClickedItem.username = null;
             mainBinding.profile.setImageResource(R.drawable.userchosen);
             if(previouslySelected.get()!=null && previouslySelected.get().getItemId() == R.id.home){
                 previouslySelected.get().setIcon(R.drawable.home);
@@ -238,6 +241,14 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.root, homeFragment, "home")
                 .commit();
     }
+    public void setUseProfile(){
+        userProfile = new UserProfile();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.root, userProfile, "userprofile")
+                .commit();
+    }
+
     public void setTagsForPhoto(){
 
         getSupportFragmentManager()

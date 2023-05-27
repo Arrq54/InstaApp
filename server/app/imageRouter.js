@@ -16,8 +16,11 @@ const imageRouter = async (req, res) => {
     }else if(req.url.match(/\/api\/photos\/getfile\/([0-9]+)/) && req.method == "GET"){
        
         let photo = jsonController.getPhotoById(req.url.split("/")[4])
+        console.log(photo);
+        let type = "image/jpeg";
+        if(photo.url.split(".")[1] == "mp4"){type = "video/mp4"}
         fs.readFile(path.resolve(__dirname, `..${photo.url}`), function (error, data) {
-            res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+            res.writeHead(200, { 'Content-Type': type });
             res.write(data);
             res.end();
         })
@@ -78,7 +81,7 @@ const imageRouter = async (req, res) => {
 
             res.end(JSON.stringify(await jsonController.deleteTagFromPhoto(req)))
         
-    }else if(req.url.match(/\/api\/photos\/([a-zA-Z]+)/) && req.method == "GET"){
+    }else if(req.url.match(/\/api\/photos\/(.*?)/) && req.method == "GET"){
         
         res.end(JSON.stringify(await jsonController.getPhotosByAlbum(req.url.split("/")[3])))
     }

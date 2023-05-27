@@ -61,7 +61,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         geocoder = new Geocoder(MapActivity.this);
 
-        Places.initialize(getApplicationContext(), "API_KEY_HERE");
+        Places.initialize(getApplicationContext(), "AIzaSyAwu6FO-Vb-ITp39cSydpdr7e6yYjdHP5k");
         PlacesClient placesClient = Places.createClient(this);
 
         AutocompleteSupportFragment autocompleteFragment =

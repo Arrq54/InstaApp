@@ -49,7 +49,7 @@ public class ShowLocationOnMap extends AppCompatActivity implements OnMapReadyCa
     private void getPlaceById(String placeId) {
         List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.LAT_LNG);
         FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
-        Places.initialize(getApplicationContext(), "API_KEY_HERE");
+        Places.initialize(getApplicationContext(), "AIzaSyAwu6FO-Vb-ITp39cSydpdr7e6yYjdHP5k");
         PlacesClient placesClient = Places.createClient(this);
 
         placesClient.fetchPlace(request).addOnSuccessListener((response) -> {

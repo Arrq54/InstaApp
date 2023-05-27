@@ -15,10 +15,19 @@ import android.widget.LinearLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.client.adapters.RecAdapterProfilePics;
+import com.example.client.api.UsersAPI;
 import com.example.client.databinding.FragmentUserProfileBinding;
+import com.example.client.model.Bio;
 import com.example.client.model.IpAddress;
+import com.example.client.model.SearchListClickedItem;
 import com.example.client.model.UserData;
 import com.example.client.viewmodel.ProfilePhotosViewModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class UserProfile extends Fragment {
@@ -39,13 +48,50 @@ public class UserProfile extends Fragment {
         profilePhotosViewModel = new ViewModelProvider(UserProfile.this).get(ProfilePhotosViewModel.class);
 
 
-        userProfileBinding.username.setText(UserData.getUsername());
+        String username = UserData.getUsername();
 
-        getParentFragmentManager()
-                .setFragmentResultListener("username", this, (s, b) -> {
-                    profilePhotosViewModel.setUsername(b.getString("username"));
-                    profilePhotosViewModel.setUp();
-                });
+
+        if(SearchListClickedItem.username != null){
+            username = SearchListClickedItem.username;
+            profilePhotosViewModel.setUsername(username);
+            profilePhotosViewModel.setUp();
+        }else{
+            getParentFragmentManager()
+                    .setFragmentResultListener("username", this, (s, b) -> {
+                        profilePhotosViewModel.setUsername(b.getString("username"));
+                        profilePhotosViewModel.setUp();
+                    });
+        }
+
+
+
+
+
+        userProfileBinding.username.setText(username);
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IpAddress.ip)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        UsersAPI usersAPI = retrofit.create(UsersAPI.class);
+
+        Call<Bio> call = usersAPI.getBioByName(username);
+
+        call.enqueue(new Callback<Bio>() {
+            @Override
+            public void onResponse(Call<Bio> call, Response<Bio> response) {
+                userProfileBinding.bio.setText(response.body().getBio());
+            }
+
+            @Override
+            public void onFailure(Call<Bio> call, Throwable t) {
+                Log.d("logdev", t.toString());
+            }
+        });
+
+
 
         StaggeredGridLayoutManager staggeredGridLayoutManager
                 = new StaggeredGridLayoutManager(3, LinearLayout.VERTICAL);
@@ -56,12 +102,8 @@ public class UserProfile extends Fragment {
         });
 
 
-        Log.d("logdev", UserData.getId());
-        Log.d("logdev", IpAddress.ip + "/api/user/pfp/"+UserData.getId());
         
-        Glide.with(getActivity())
-                .load(IpAddress.ip + "/api/user/pfp/"+UserData.getId()).diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(userProfileBinding.pfp);
+        Glide.with(getActivity()).load(IpAddress.ip + "/api/user/pfpbyname/"+username).diskCacheStrategy(DiskCacheStrategy.NONE).into(userProfileBinding.pfp);
 
 
 
