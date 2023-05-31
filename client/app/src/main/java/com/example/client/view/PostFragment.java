@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,31 +64,24 @@ public class PostFragment extends Fragment {
 
 
 
-            MediaController mediaController = new MediaController(getContext());
-            postBinding.video.setMediaController(mediaController);
-            mediaController.setAnchorView(postBinding.video);
+//            MediaController mediaController = new MediaController(getContext());
+//            postBinding.video.setMediaController(mediaController);
+//            mediaController.setAnchorView(postBinding.video);
 
             // URL of the image to be loaded
             String imageUrl = ClickedPostData.getPostURL();
 
-            // Convert the URL to a Uri
-            Uri imageUri = Uri.parse(imageUrl);
 
-            // Set the Uri as the video source for the VideoView
-            postBinding.video.setVideoURI(imageUri);
-            postBinding.video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    postBinding.video.requestFocus();
-                    postBinding.video.start();
+            ExoPlayer player = new ExoPlayer.Builder(getContext()).build();
+            postBinding.video.setPlayer(player);
+            MediaItem mediaItem = MediaItem.fromUri(Uri.parse(imageUrl));
 
-                }
-            });
+            player.setMediaItem(mediaItem);
 
+            player.prepare();
+            player.setRepeatMode(player.REPEAT_MODE_ALL);
 
-
-            // Start playing the video
-
+            player.play();
 
         }else{
 

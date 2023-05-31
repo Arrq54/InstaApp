@@ -75,21 +75,35 @@ public class AddPhotoUpload extends Fragment {
 
 
 
-            String selection = MediaStore.Video.Media._ID + " = ?";
-            String[] selectionArgs = new String[] { id };
-            Cursor cursor = getActivity().getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null, selection, selectionArgs, null);
-            if (cursor != null && cursor.moveToFirst()) {
+
+            boolean flag = false;
+            String videoPath = "";
+
+            if(!Imager.uri.toString().contains("DCIM")){
+                String selection = MediaStore.Video.Media._ID + " = ?";
+                String[] selectionArgs = new String[] { id };
+                Cursor cursor = getActivity().getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, null, selection, selectionArgs, null);
+                if(cursor != null && cursor.moveToFirst())
+                    flag = true;
                 int pathColumn = cursor.getColumnIndex(MediaStore.Video.Media.DATA);
-                String videoPath = cursor.getString(pathColumn);
+                videoPath = cursor.getString(pathColumn);
+                cursor.close();
+            }else{
+                String parentPath = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM).getPath() ;
+                Log.d("logdev", "----------------------");
+                Log.d("logdev", parentPath);
+                Log.d("logdev", "----------------------");
+                videoPath = Imager.uri.getPath();
+                videoPath = videoPath.substring(5);
                 Log.d("logdev", videoPath);
+                flag = true;
+            }
 
-
+            if (flag) {
+                Log.d("logdev", videoPath);
                 addPhotoUploadBinding.videoToUpload.setVideoPath(videoPath);
                 addPhotoUploadBinding.videoToUpload.start();
-
-
                 addPhotoUploadBinding.videoToUpload.setZOrderOnTop(true);
-
                 addPhotoUploadBinding.videoToUpload.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {
@@ -105,7 +119,7 @@ public class AddPhotoUpload extends Fragment {
                         }
                     }
                 });
-                cursor.close();
+
             }
 
 

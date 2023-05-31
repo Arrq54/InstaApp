@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.AddPhoto"
@@ -52,14 +52,14 @@
                             android:layout_weight="4"
                             android:layout_gravity="center"
                             android:src="@drawable/image_gallery"/>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="Gallery"
-                            android:textAlignment="center"
-                            />
+                            android:textAlignment="center" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -71,6 +71,7 @@
                     android:weightSum="5"
                     android:orientation="horizontal"
                     android:layout_gravity="center"
+                    android:id="@+id/camera"
                     android:layout_weight="1"
                     android:padding="50dp">
                     <ImageView

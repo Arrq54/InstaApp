@@ -86,6 +86,10 @@ public class AddPhoto extends Fragment {
 
 
         });
+
+        addPhotoBinding.camera.setOnClickListener(v->{
+            ((MainActivity)getActivity()).setCameraFragment();
+        });
         
 
 
