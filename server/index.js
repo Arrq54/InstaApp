@@ -6,6 +6,7 @@ const imageRouter = require("./app/imageRouter")
 const tagsRouter = require("./app/tagsRouter.js")
 const filtersRouter = require("./app/filtersRouter")
 const userRouter = require("./app/userRouter.js")
+const dbConnect = require("./app/dbConnect")
 http.createServer(async (req, res) => {
     
     //images
@@ -28,4 +29,7 @@ http.createServer(async (req, res) => {
    }
 
 })
-.listen(PORT, () => console.log('\x1b[32m%s\x1b[0m', "Server started, PORT: " + PORT))
+.listen(PORT, () => {
+   console.log('\x1b[32m%s\x1b[0m', "Server started, PORT: " + PORT)
+   dbConnect.connect();
+})

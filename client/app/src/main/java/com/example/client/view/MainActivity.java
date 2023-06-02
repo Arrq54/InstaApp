@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.client.R;
-import com.example.client.api.CameraFragment;
 import com.example.client.databinding.ActivityMainBinding;
 import com.example.client.model.IpAddress;
 import com.example.client.model.SearchListClickedItem;

@@ -103,7 +103,9 @@ public class UserProfile extends Fragment {
 
 
         
-        Glide.with(getActivity()).load(IpAddress.ip + "/api/user/pfpbyname/"+username).diskCacheStrategy(DiskCacheStrategy.NONE).into(userProfileBinding.pfp);
+        Glide.with(getActivity()).load(IpAddress.ip + "/api/user/pfpbyname/"+username)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(userProfileBinding.pfp);
 
 
 
