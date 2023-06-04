@@ -1,8 +1,8 @@
-const jsonController = require("./jsonController.js")
-const fileController = require("./fileController.js")
+const jsonController = require("../controllers/jsonController.js")
+const fileController = require("../controllers/fileController.js")
 const fs = require('fs');
 const path = require('path')
-const model = require("./model.js")
+const model = require("../model.js")
 const imageRouter = async (req, res) => {
     res.writeHead(200, { "content-type": "application/json;charset=utf-8" })
 

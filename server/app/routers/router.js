@@ -1,7 +1,7 @@
-const jsonController = require("./jsonController.js")
-const fileController = require("./fileController.js")
+const jsonController = require("../controllers/jsonController.js")
+const fileController = require("../controllers/fileController.js")
 
-const model = require("./model.js")
+const model = require("../model.js")
 const router = async (req, res) => {
 
     if(req.url == "/api/photos" && req.method == "GET"){

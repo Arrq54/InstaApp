@@ -1,12 +1,11 @@
 const http = require('http');
 
 require('dotenv').config();
-const PORT  = process.env.APP_PORT
-const imageRouter = require("./app/imageRouter")
-const tagsRouter = require("./app/tagsRouter.js")
-const filtersRouter = require("./app/filtersRouter")
-const userRouter = require("./app/userRouter.js")
-const dbConnect = require("./app/dbConnect")
+const PORT  = process.env.APP_PORT 
+const imageRouter = require("./app/routers/imageRouter")
+const tagsRouter = require("./app/routers/tagsRouter.js")
+const filtersRouter = require("./app/routers/filtersRouter")
+const userRouter = require("./app/routers/userRouter.js")
 http.createServer(async (req, res) => {
     
     //images
@@ -31,5 +30,4 @@ http.createServer(async (req, res) => {
 })
 .listen(PORT, () => {
    console.log('\x1b[32m%s\x1b[0m', "Server started, PORT: " + PORT)
-   dbConnect.connect();
 })

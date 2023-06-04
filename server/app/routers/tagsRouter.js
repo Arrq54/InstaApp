@@ -1,4 +1,4 @@
-const tagsController = require("./tagsController")
+const tagsController = require("../controllers/tagsController")
 //TO DO - POPRAWIC KODY (404 ITP)
 const tagsRouter = async (req, res) => {
     res.writeHead(200, { "content-type": "application/json;charset=utf-8" })

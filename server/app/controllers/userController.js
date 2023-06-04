@@ -1,11 +1,11 @@
 const bcrypt = require('bcryptjs');
-const model = require("./model.js")
+const model = require("../model.js")
 const formidable = require('formidable');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const { log } = require('console');
-const mainPath = path.join(__dirname, "../");
+const mainPath = path.join(__dirname, "../../");
 const form = formidable({ multiples: true });
 const  generateId = ()=>{
     return String(Date.now()) +Math.floor(Math.random() * 25001);

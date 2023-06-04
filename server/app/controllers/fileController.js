@@ -1,8 +1,8 @@
-const model = require("./model.js")
+const model = require("../model.js")
 const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
-const mainPath = path.join(__dirname, "../");
+const mainPath = path.join(__dirname, "../../");
 module.exports = {
     uploadFle(req){ 
         const form = formidable({ multiples: true });

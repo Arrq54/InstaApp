@@ -1,3 +1,4 @@
+const dbController = require("./controllers/dbController")
 class Photo {
     constructor(id, album, originalName, url, lastChange, timestamp, location) {
         this.id = id;
@@ -13,6 +14,9 @@ class Photo {
         ]
         this.tags = []
         this.location = location
+
+        dbController.addPost(this)
+
         photosArray.push(this);
     }
     async addTag(tag){

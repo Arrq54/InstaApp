@@ -1,5 +1,5 @@
 const fs = require('fs');
-const model = require("./model.js")
+const model = require("../model.js")
 const formidable = require('formidable');
 const form = formidable({ multiples: true });
 

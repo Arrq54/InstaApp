@@ -1,7 +1,7 @@
-const userController = require("./userController")
+const userController = require("../controllers/userController")
 const path = require('path')
 const fs = require('fs');
-const model = require("./model.js")
+const model = require("../model")
 const userRouter = async (req, res) => {
     res.writeHead(200, { "content-type": "application/json;charset=utf-8" })
 

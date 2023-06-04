@@ -1,5 +1,5 @@
 const fs = require('fs');
-const model = require("./model.js")
+const model = require("../model.js")
 const formidable = require('formidable');
 const sharp = require("sharp");
 const form = formidable({ multiples: true });
@@ -15,7 +15,7 @@ module.exports = {
                 else {
                     resolve("url_not_found")
                 }
-        
+         
             } catch (err) {
                 reject(err.mesage)
             }

@@ -1,4 +1,4 @@
-const filtersController = require("./filtersController.js")
+const filtersController = require("../controllers/filtersController.js")
 //TO DO - POPRAWIC KODY (404 ITP)
 
 const filtersRouter = async (req, res) => {
