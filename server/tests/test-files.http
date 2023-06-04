@@ -5,7 +5,7 @@ GET http://localhost:3000/api/photos/default HTTP/1.1
 GET http://localhost:3000/api/photos HTTP/1.1
 
 ###
-GET http://localhost:3000/api/photos/getfile/168441135588212627 HTTP/1.1
+GET http://localhost:3000/api/photos/getfile/168586858395517245 HTTP/1.1
 
 
 ###
@@ -85,7 +85,7 @@ Content-Type: text/plain
 
 ###
 
-GET http://localhost:3000/api/photos/168398795367113126 HTTP/1.1
+GET http://localhost:3000/api/photos/168586858395517245 HTTP/1.1
 
 
 ###
@@ -101,7 +101,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/api/photos/168046859969715389 HTTP/1.1
+# DELETE http://localhost:3000/api/photos/168586858395517245 HTTP/1.1
 
 
 ###
@@ -111,7 +111,7 @@ Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
 {
-  "photoid": 16821839467005883,
+  "photoid": "168586858395517245",
   "ids": [1,2, 11]
 }
 ###

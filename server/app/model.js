@@ -14,10 +14,7 @@ class Photo {
         ]
         this.tags = []
         this.location = location
-
         dbController.addPost(this)
-
-        photosArray.push(this);
     }
     async addTag(tag){
         return new Promise((resolve, reject) => {
@@ -26,6 +23,7 @@ class Photo {
             if(this.tags.find(i=>{return i.name == tag.name}) == null){
                 this.tags.push(tag)
             }
+            
           
             resolve()
         })
@@ -37,9 +35,6 @@ class Photo {
     
 
 }
-
-let photosArray = []
-
 
 class Tag{
     constructor(id, name, popularity){
@@ -73,4 +68,4 @@ class User{
 let usersArray = []
 
 
-module.exports = { Photo, photosArray, Tag, tagsArray, User, usersArray };
+module.exports = { Photo, Tag, tagsArray, User, usersArray };

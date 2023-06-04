@@ -1,6 +1,7 @@
 const fs = require('fs');
 const model = require("../model.js")
 const formidable = require('formidable');
+const { log } = require('console');
 const form = formidable({ multiples: true });
 
 module.exports = { 
@@ -107,25 +108,19 @@ module.exports = {
        
    },
     async getTagById(id){
-         //LOAD DEFAULT TAGS FROM JSON FILE
-         await this.checkIfInit()
-         //================================
-
-        let found = model.tagsArray.find(i=>{
-            return i.id == id 
+        return new Promise(async (resolve, reject)=>{
+            console.log("Get tags");
+            await this.checkIfInit()
+            let found = model.tagsArray.find(i=>{
+                return i.id == id 
+            })
+            if(found){
+    
+                resolve(found)
+            }else{
+                resolve(null)
+            }
         })
-        if(found){
-            return found;
-        }
-
-
-        console.log("Search for tag with id:" + id);
-
-
-  
-
-        return null
-        // return new model.Tag(model.tagsArray.length, z.name, z.popularity)
     },
    
     

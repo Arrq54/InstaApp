@@ -4,6 +4,7 @@ const form = formidable({ multiples: true });
 const fs = require('fs');
 const tagsController = require("./tagsController");
 const path = require('path');
+const dbController = require("./dbController.js");
 const  generateId = ()=>{
     return String(Date.now()) +Math.floor(Math.random() * 20001);
 }
@@ -24,18 +25,19 @@ module.exports = {
         console.log(data);
         return new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp, data.location)
     },
-    getAllPhotos: ()=>{
-        return model.photosArray;
+    getAllPhotos: async ()=>{
+        return  await dbController.getAllPosts();
     },
-    getPhotoById: (id)=>{
-        return model.photosArray.find((i)=>{return i.id == id}) != null ? model.photosArray.find((i)=>{return i.id == id}): {success: false, info: "Photo not found"};
+    getPhotoById: async(id)=>{
+        return await dbController.getPostById(id);
     },
     updatePhoto: async (req)=>{
 
         return new Promise((resolve, reject) => {
 
-            form.parse(req, function(err, fields, files) {
-                let x =  model.photosArray.find((i)=>{return i.id == fields.id})
+            form.parse(req, async function(err, fields, files) {
+                let x = await dbController.getPostById(fields.id)
+              
                 if(x == null){reject({success: false, info: "Photo not found"})}
                 x.lastChange = fields.lastChange;
                 x.history.map((i)=>{
@@ -47,7 +49,9 @@ module.exports = {
                     status: fields.lastChange,
                     timestamp: Date.now()
                 })
-                resolve(x);
+
+                dbController.updatePost(fields.id, x)
+                resolve(data);
     
             })
 
@@ -57,47 +61,49 @@ module.exports = {
        
     },
 
-    getAndDelete: (id)=>{
-        let photo = model.photosArray.find((i)=>{return i.id == id});
+    getAndDelete: async (id)=>{
+        let photo = await dbController.getPostById(id)
         if(photo == null){
             return false;
         }
-        model.photosArray = model.photosArray.filter(i=>{return i.id != photo.id})
+        await collection.deleteMany({id: photo.id})
         return photo;
     },
-
+ 
     addTags: async (req)=>{
-        
-        return new Promise((resolve, reject) => {
-            form.parse(req, function(err, fields, files) {
-                // console.log("================");
-                // console.log(fields);
-                // console.log("================");
-                // console.log("Adding tags to photo with id: " + fields.photoid);
-                let photo = model.photosArray.find((i)=>{return i.id == fields.photoid});
-                
+         
+        return new Promise(async (resolve, reject) => {
+            form.parse(req, async function(err, fields, files) {
+                let photo = await dbController.getPostById(fields.photoid)
+                console.log(fields);
                 if(photo != null && photo.tags.length == 0){
                     if(fields.ids != undefined){
                         if(!Array.isArray(fields.ids)){
                             fields.ids = [fields.ids]
                         }
+                        let newTags = []
+                        
                         fields.ids.map(async (i)=>{ 
                          
-                                // console.log(i);
-                            await photo.addTag(await tagsController.getTagById(i))
-                            
-                            
+                                // console.log(await tagsController.getTagById(i));
+                            let tagToAdd = await tagsController.getTagById(i);
+                            console.log(tagToAdd);
+                            newTags.push(tagToAdd);
+                            if(newTags.length == fields.ids.length){
+                                photo.tags = newTags
+                                await dbController.updatePost(photo.id, photo)
+                                resolve(photo)
+                            }
                         })
-                        resolve(model.photosArray.find((i)=>{return i.id == fields.photoid}))
                     }
-                  
-                } 
-                resolve({success: false, message:"Photo not found"})
+                }else{
+                    resolve({success: false, message:"Photo not found"})
+                }
             })
         })
     },
-    getTagsById(id){
-        let photo = model.photosArray.find((i)=>{return i.id == id});
+    async getTagsById (id){
+        let photo = await dbController.getPostById(id)
         if(photo){
             return {
                 id: id,
@@ -108,9 +114,9 @@ module.exports = {
     },
     deleteTagFromPhoto: async (req)=>{
         return new Promise((resolve, reject) => {
-            form.parse(req, function(err, fields, files) {
+            form.parse(req, async function(err, fields, files) {
                 // console.log(fields);
-                let photo = model.photosArray.find((i)=>{return i.id == fields.photoid});
+                let photo= await dbController.getPostById(fields.photoid)
                 if(photo){
                     photo.setTags(photo.tags.filter(i=>{return i.id !=fields.tagid }))
     
@@ -123,7 +129,7 @@ module.exports = {
        
 
     },
-    getPhotosByAlbum: (album)=>{
-        return model.photosArray.filter((i)=>{return i.album == album});
+    getPhotosByAlbum: async (album)=>{
+        return await dbController.getPostsByAlbum(album);
     }
 }

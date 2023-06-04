@@ -37,11 +37,11 @@ const userRouter = async (req, res) => {
     
     else if(req.url.match(/\/api\/user\/pfp\/([0-9]+)/) && req.method == "GET"){
         console.log(req.url.split("/")[4]);
-        let path2 = path.resolve(__dirname, `../uploads/profile_pictures/${req.url.split("/")[4]}.jpg`)
+        let path2 = path.resolve(__dirname, `../../uploads/profile_pictures/${req.url.split("/")[4]}.jpg`)
 
         fs.access(path2, fs.F_OK, (err) => {
             if (err) {
-                fs.readFile(path.resolve(__dirname, `../uploads/profile_pictures/default.jpg`), function (error, data) {
+                fs.readFile(path.resolve(__dirname, `../../uploads/profile_pictures/default.jpg`), function (error, data) {
                     res.writeHead(200, { 'Content-Type': 'image/jpeg' });
                     res.write(data);
                     res.end();
@@ -57,18 +57,18 @@ const userRouter = async (req, res) => {
     } else if(req.url.match(/\/api\/user\/pfpbyname\/(.*?)/) && req.method == "GET"){
         let user = model.usersArray.find(i=>{return i.name == req.url.split("/")[4]})
         if(user == undefined){
-            fs.readFile(path.resolve(__dirname, `../uploads/profile_pictures/default.jpg`), function (error, data) {
+            fs.readFile(path.resolve(__dirname, `../../uploads/profile_pictures/default.jpg`), function (error, data) {
                 res.writeHead(200, { 'Content-Type': 'image/jpeg' });
                 res.write(data);
                 res.end();
             })
         }else{
             let id = user.id;
-            let path2 = path.resolve(__dirname, `../uploads/profile_pictures/${id}.jpg`)
+            let path2 = path.resolve(__dirname, `../../uploads/profile_pictures/${id}.jpg`)
             console.log(path2);
             fs.access(path2, fs.F_OK, (err) => {
                 if (err) {
-                    fs.readFile(path.resolve(__dirname, `../uploads/profile_pictures/default.jpg`), function (error, data) {
+                    fs.readFile(path.resolve(__dirname, `../../uploads/profile_pictures/default.jpg`), function (error, data) {
                         res.writeHead(200, { 'Content-Type': 'image/jpeg' });
                         res.write(data);
                         res.end();

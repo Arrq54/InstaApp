@@ -10,16 +10,18 @@ const imageRouter = async (req, res) => {
        
         //ALL PHOTOS
        
-        res.end(JSON.stringify(jsonController.getAllPhotos()))
+        res.end(JSON.stringify(await jsonController.getAllPhotos()))
  
 
     }else if(req.url.match(/\/api\/photos\/getfile\/([0-9]+)/) && req.method == "GET"){
-       
-        let photo = jsonController.getPhotoById(req.url.split("/")[4])
+        
+        let photo = await jsonController.getPhotoById(req.url.split("/")[4])
+ 
+
         console.log(photo);
         let type = "image/jpeg";
         if(photo.url.split(".")[1] == "mp4"){type = "video/mp4"}
-        fs.readFile(path.resolve(__dirname, `..${photo.url}`), function (error, data) {
+        fs.readFile(path.resolve(__dirname, `../..${photo.url}`), function (error, data) {
             res.writeHead(200, { 'Content-Type': type });
             res.write(data);
             res.end();
@@ -42,7 +44,7 @@ const imageRouter = async (req, res) => {
         //ONE PHOTO BY ID
       
 
-        res.end(JSON.stringify(jsonController.getPhotoById(req.url.split("/")[3])))
+        res.end(JSON.stringify(await jsonController.getPhotoById(req.url.split("/")[3])))
         
 
     }else if(req.url.match(/\/api\/photos\/([0-9]+)/) && req.method == "DELETE"){
