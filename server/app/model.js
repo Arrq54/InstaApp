@@ -1,4 +1,5 @@
-const dbController = require("./controllers/dbController")
+const  dbControllerPosts= require("./controllers/dbControllerPosts");
+const dbControllerUsers = require("./controllers/dbControllerUsers");
 class Photo {
     constructor(id, album, originalName, url, lastChange, timestamp, location) {
         this.id = id;
@@ -14,7 +15,7 @@ class Photo {
         ]
         this.tags = []
         this.location = location
-        dbController.addPost(this)
+        dbControllerPosts.addPost(this)
     }
     async addTag(tag){
         return new Promise((resolve, reject) => {
@@ -58,14 +59,9 @@ class User{
         this.bio = bio;
         this.pfp = pfp;
 
-        usersArray.push(this)
+        dbControllerUsers.addUser(this)
    
     }
-    verify(){
-        this.confimred = true;
-    }
 }
-let usersArray = []
 
-
-module.exports = { Photo, Tag, tagsArray, User, usersArray };
+module.exports = { Photo, Tag, tagsArray, User };

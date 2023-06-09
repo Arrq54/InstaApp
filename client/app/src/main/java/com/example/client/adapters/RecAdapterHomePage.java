@@ -45,7 +45,7 @@ public class RecAdapterHomePage extends RecyclerView.Adapter<RecAdapterHomePage.
     public void onBindViewHolder(@NonNull RecAdapterHomePage.ViewHolder holder, int position) {
         Photo photo = photosList.get(position);
         Glide.with(holder.img.getContext())
-                .load(IpAddress.ip + "/api/photos/getfile/"+photo.getId())
+                .load(IpAddress.ip + "/api/photos/getfile/"+photo.getId()).timeout(3000)
                 .into(holder.img);
 //        holder.username.setText(photo.getAlbum());
 //        holder.username2.setText(photo.getAlbum());

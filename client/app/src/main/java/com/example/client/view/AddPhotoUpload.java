@@ -1,7 +1,11 @@
 package com.example.client.view;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.example.client.R;
@@ -57,6 +63,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddPhotoUpload extends Fragment {
     private FragmentAddPhotoUploadBinding addPhotoUploadBinding;
+
+    ProgressDialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -144,6 +152,13 @@ public class AddPhotoUpload extends Fragment {
 
         addPhotoUploadBinding.confirmPost.setOnClickListener(v->{
             if(addPhotoUploadBinding.postDescription.getText().length()>0){
+
+
+                dialog = ProgressDialog.show(getContext(), "",
+                        "Uploading, please wait", true);
+                dialog.setIndeterminate(true);
+
+
                 String filePath = null;
                 if (Imager.uri != null) {
                     Cursor cursor = (AddPhotoUpload.this.getActivity().getContentResolver().query(Imager.uri, null, null, null, null));
@@ -199,6 +214,37 @@ public class AddPhotoUpload extends Fragment {
 
 
 
+
+        addPhotoUploadBinding.filters.setOnClickListener(v->{
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Pick filter for your photo").setPositiveButton("ok",null);
+
+            LinearLayout body = new LinearLayout(getContext());
+            body.setOrientation(LinearLayout.VERTICAL);
+            String[] filters = new String[]{"Retro 1", "Retro 2", "Retro 3", "Blue", "Vintage cos tam"};
+
+
+            for(String filter:filters){
+                TextView tv = new TextView(getContext());
+
+
+
+                tv.setText(filter);
+                tv.setOnClickListener(x->{
+
+                });
+                body.addView(tv);
+            }
+            builder.setView(body);
+            AlertDialog alert = builder.create();
+
+            alert.getWindow().getAttributes().windowAnimations = R.style.FilterDialogAnimation;
+            alert.show();
+        });
+
+
+
+
         return addPhotoUploadBinding.getRoot();
     }
     private void uploadTagsForPhoto(String id){
@@ -245,6 +291,7 @@ public class AddPhotoUpload extends Fragment {
                 setTagsForPhotoById.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
+                        dialog.dismiss();
                         ((MainActivity)getActivity()).setHomeFragment();
                     }
 

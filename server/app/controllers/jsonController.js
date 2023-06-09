@@ -4,7 +4,7 @@ const form = formidable({ multiples: true });
 const fs = require('fs');
 const tagsController = require("./tagsController");
 const path = require('path');
-const dbController = require("./dbController.js");
+const dbControllerPosts = require("./dbControllerPosts.js");
 const  generateId = ()=>{
     return String(Date.now()) +Math.floor(Math.random() * 20001);
 }
@@ -26,17 +26,17 @@ module.exports = {
         return new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp, data.location)
     },
     getAllPhotos: async ()=>{
-        return  await dbController.getAllPosts();
+        return  await dbControllerPosts.getAllPosts();
     },
     getPhotoById: async(id)=>{
-        return await dbController.getPostById(id);
+        return await dbControllerPosts.getPostById(id);
     },
     updatePhoto: async (req)=>{
 
         return new Promise((resolve, reject) => {
 
             form.parse(req, async function(err, fields, files) {
-                let x = await dbController.getPostById(fields.id)
+                let x = await dbControllerPosts.getPostById(fields.id)
               
                 if(x == null){reject({success: false, info: "Photo not found"})}
                 x.lastChange = fields.lastChange;
@@ -50,7 +50,7 @@ module.exports = {
                     timestamp: Date.now()
                 })
 
-                dbController.updatePost(fields.id, x)
+                dbControllerPosts.updatePost(fields.id, x)
                 resolve(data);
     
             })
@@ -62,7 +62,7 @@ module.exports = {
     },
 
     getAndDelete: async (id)=>{
-        let photo = await dbController.getPostById(id)
+        let photo = await dbControllerPosts.getPostById(id)
         if(photo == null){
             return false;
         }
@@ -74,7 +74,7 @@ module.exports = {
          
         return new Promise(async (resolve, reject) => {
             form.parse(req, async function(err, fields, files) {
-                let photo = await dbController.getPostById(fields.photoid)
+                let photo = await dbControllerPosts.getPostById(fields.photoid)
                 console.log(fields);
                 if(photo != null && photo.tags.length == 0){
                     if(fields.ids != undefined){
@@ -91,7 +91,7 @@ module.exports = {
                             newTags.push(tagToAdd);
                             if(newTags.length == fields.ids.length){
                                 photo.tags = newTags
-                                await dbController.updatePost(photo.id, photo)
+                                await dbControllerPosts.updatePost(photo.id, photo)
                                 resolve(photo)
                             }
                         })
@@ -103,7 +103,7 @@ module.exports = {
         })
     },
     async getTagsById (id){
-        let photo = await dbController.getPostById(id)
+        let photo = await dbControllerPosts.getPostById(id)
         if(photo){
             return {
                 id: id,
@@ -116,7 +116,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             form.parse(req, async function(err, fields, files) {
                 // console.log(fields);
-                let photo= await dbController.getPostById(fields.photoid)
+                let photo= await dbControllerPosts.getPostById(fields.photoid)
                 if(photo){
                     photo.setTags(photo.tags.filter(i=>{return i.id !=fields.tagid }))
     
@@ -130,6 +130,6 @@ module.exports = {
 
     },
     getPhotosByAlbum: async (album)=>{
-        return await dbController.getPostsByAlbum(album);
+        return await dbControllerPosts.getPostsByAlbum(album);
     }
 }

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const { log } = require('console');
+const dbControllerUsers = require('./dbControllerUsers.js');
 const mainPath = path.join(__dirname, "../../");
 const form = formidable({ multiples: true });
 const  generateId = ()=>{
@@ -30,6 +31,8 @@ module.exports = {
                 );
     
                 new model.User(id, fields.name, fields.lastName, fields.email, false, fields.password, "")
+
+
                 resolve({token: `http://${ip}:${process.env.APP_PORT}/api/user/confirm/${token}`})
             })
 
@@ -40,7 +43,13 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let decoded = await jwt.verify(token, process.env.JWT_KEY)
-                model.usersArray.find(i=>{return i.id == decoded.id}).verify()
+
+
+                let user = await dbControllerUsers.getUserById(decoded.id);
+                user.confimred = true;
+                console.log(user);
+
+                await dbControllerUsers.updateUser(decoded.id, user)
                 
                 resolve({success: true})
             }
@@ -54,7 +63,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
            
             form.parse(req, async function(err, fields, files) {
-                let user = model.usersArray.find(i=>{return i.name == fields.username})
+                let user = await dbControllerUsers.getUserByName(fields.username);
                 if(user){
                     if(await bcrypt.compare(fields.password, user.password)){
                         let token = await jwt.sign(
@@ -98,7 +107,8 @@ module.exports = {
                     
                     let id = decoded.id;
 
-                    let user = model.usersArray.find(i=>{return i.id == id})
+                    let user = await dbControllerUsers.getUserById(id);
+                    
 
                     console.log(user);
 
@@ -120,8 +130,8 @@ module.exports = {
         console.log("POST - USER PROFILE UPDATE");
         const form = formidable({ multiples: true });
             return new Promise((resolve, reject) => {
-                form.parse(req, (err, fields, files) => {
-                    let userToEdit = model.usersArray.find(i=> {return i.id == fields.id});
+                form.parse(req, async (err, fields, files) => {
+                    let userToEdit = await dbControllerUsers.getUserById(fields.id);
                     if(fields.bio != undefined){
                         userToEdit.bio = fields.bio;
                     }
@@ -136,6 +146,8 @@ module.exports = {
                         fs.mkdirSync(dir);
                     } 
 
+
+
                     let file = files.file;
  
                     try {
@@ -147,18 +159,23 @@ module.exports = {
                         var newPath =  mainPath +"/"+dir+ '/'+fields.id + "."+ext
         
                         var rawData = fs.readFileSync(file.path)
+
         
                         fs.writeFile(newPath, rawData, function(err){
                             if(err){
                                 console.log(err);
                                 reject("file system error")
                             }else{
-                                fs.stat(newPath, (err, stats) => {
+                                fs.stat(newPath, async (err, stats) => {
                                     if(err){
                                         console.log(err);
                                         reject("file system error")
                                     }else{
                                         newPath = "/uploads" + newPath.split("uploads")[1]
+
+                                        await dbControllerUsers.updateUser(userToEdit.id, userToEdit);
+
+
                                         resolve({
                                             originalName: file.name,
                                             url: newPath,
@@ -185,8 +202,8 @@ module.exports = {
 
         const form = formidable({ multiples: true });
             return new Promise((resolve, reject) => {
-                form.parse(req, (err, fields, files) => {
-                    let userToEdit = model.usersArray.find(i=> {return i.id == fields.id});
+                form.parse(req, async (err, fields, files) => {
+                    let userToEdit = await dbControllerUsers.getUserById(fields.id);
                     if(fields.bio != undefined){
                         userToEdit.bio = fields.bio;
                     }
@@ -196,8 +213,9 @@ module.exports = {
                     if(fields.lastName != undefined){
                         userToEdit.lastName = fields.email
                     }
+                    await dbControllerUsers.updateUser(userToEdit.id, userToEdit);
                     resolve({})
-                })
+                }) 
             })
     }, 
     async getAllUsers(){
@@ -215,9 +233,16 @@ module.exports = {
         })
     },
     async getBioById(id){
-        return {bio: model.usersArray.find(i=>{return i.id == id})!=undefined?model.usersArray.find(i=>{return i.id == id}).bio:""}
+        let user = await dbControllerUsers.getUserById(id);
+        return {
+            bio: user!=undefined?user.bio:""
+        }
     },
     async getBioByName(name){
-        return {bio: model.usersArray.find(i=>{return i.name == name})!=undefined?model.usersArray.find(i=>{return i.name == name}).bio:""}
+        let user = await dbControllerUsers.getUserByName(name);
+
+        return {
+            bio:user!=undefined?user.bio:""
+        }
     }
 }

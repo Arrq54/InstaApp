@@ -6,8 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.AddPhotoUpload"
-    android:weightSum="15"
+    android:weightSum="23"
     android:orientation="vertical"
+    android:paddingBottom="60dp"
     >
 
     <LinearLayout
@@ -39,7 +40,6 @@
             />
 
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -59,16 +59,41 @@
         android:layout_weight="7"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:weightSum="14">
+        android:weightSum="3">
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="TAGS (0)"
-            android:layout_weight="5"
+            android:layout_weight="1"
             android:layout_margin="5dp"
 
             android:id="@+id/addTags"
             app:cornerRadius="20dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Filters"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:id="@+id/filters"
+            app:cornerRadius="20dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="MAPS"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:id="@+id/maps"
+            app:cornerRadius="20dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="14">
+
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -77,14 +102,7 @@
             android:layout_weight="4"
             android:id="@+id/confirmPost"
             app:cornerRadius="20dp"/>
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="MAPS"
-            android:layout_margin="5dp"
-            android:layout_weight="5"
-            android:id="@+id/maps"
-            app:cornerRadius="20dp"/>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -85,6 +85,22 @@
             android:gravity="center"/>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
+        android:layout_alignParentEnd="true"
+        android:visibility="gone"
+        android:id="@+id/recording"
+        >
+       <androidx.cardview.widget.CardView
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           app:cardCornerRadius="100dp"
+           android:backgroundTint="@color/red"/>
+    </RelativeLayout>
+
 
 </RelativeLayout>
 </layout>

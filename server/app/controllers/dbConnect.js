@@ -9,6 +9,7 @@ module.exports = {
             console.log('\x1b[32m%s\x1b[0m',"\nSuccesfully conected to MongoDB database\n");
             return db
         } catch (error) {
+            console.log(error.message);
             return error.message
         }    
     }

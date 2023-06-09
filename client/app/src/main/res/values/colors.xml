@@ -10,6 +10,7 @@
 
     <color name="mainBlack">#FF333333</color>
     <color name="mainWhite">#FFF5F5F5</color>
+    <color name="red">#FFFF0000</color>
 
     <color name="lightGray">#FFB6B6B6</color>
     <color name="link">#FF0083ee</color>

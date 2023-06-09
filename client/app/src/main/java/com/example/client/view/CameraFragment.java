@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.client.R;
@@ -115,6 +116,8 @@ public class CameraFragment extends Fragment {
                     if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
+                    cameraBinding.recording.setVisibility(View.VISIBLE);
+                    recording = true;
                     videoCapture.startRecording(
                             new VideoCapture.OutputFileOptions.Builder(
                                     getContext().getContentResolver(),
@@ -125,7 +128,11 @@ public class CameraFragment extends Fragment {
                             new VideoCapture.OnVideoSavedCallback() {
                                 @Override
                                 public void onVideoSaved(@NonNull VideoCapture.OutputFileResults outputFileResults) {
-                                    Log.d("logdev", "video saved");
+
+                                    Imager.type = PostType.VIDEO;
+                                    Imager.uri = outputFileResults.getSavedUri();
+                                    ((MainActivity) getActivity()).setAddPhotoUpload();
+
                                 }
 
                                 @Override
@@ -135,7 +142,9 @@ public class CameraFragment extends Fragment {
                             });
                 }else{
                     //recording
+                    cameraBinding.recording.setVisibility(View.GONE);
                     videoCapture.stopRecording();
+
                 }
             }
         });
@@ -190,6 +199,8 @@ public class CameraFragment extends Fragment {
                         .build();
 
 
+        Log.d("logdev", "bindpreview");
+        
         videoCapture =
                 new VideoCapture.Builder()
                         .setTargetRotation(cameraBinding.previewView.getDisplay().getRotation())
@@ -198,11 +209,7 @@ public class CameraFragment extends Fragment {
 
         preview.setSurfaceProvider(cameraBinding.previewView.getSurfaceProvider());
 
-        if(postType == PostType.PHOTO){
-            cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, preview);
-        }else{
-            cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, videoCapture, preview);
-        }
+        cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, videoCapture, preview);
 
     }
 

@@ -8,8 +8,8 @@ module.exports = {
     getPhotoInfo: async (id)=>{
         return new Promise(async (resolve, reject) => {
             try {
-                if (jsonController.getPhotoById(id).url) {
-                    let metadata =   await sharp(jsonController.getPhotoById(id).url).metadata();
+                if ((await jsonController.getPhotoById(id)).url) {
+                    let metadata =   await sharp((await jsonController.getPhotoById(id)).url).metadata();
                     resolve(metadata)
                 }
                 else {
@@ -17,24 +17,52 @@ module.exports = {
                 }
          
             } catch (err) {
-                reject(err.mesage)
+                console.log(err);
+                resolve(err.mesage)
             }
-        })
-    },
+        }) 
+    }, 
     handleFilter: async (req)=>{
         return new Promise(async (resolve, reject) => {
 
-            
+            /*
+retro
+"r": 100,
+    "g": 75, 
+    "b": 50
+*/
+/**
+ * retro 2
+ * "r": 100,
+    "g": 75, 
+    "b": 0
+ */
+/**
+ * retro 3
+ *  "tint": {
+    "r": 200,
+    "g": 160, 
+    "b": 100
+    }
+ * 
+ */
+
+
+/*
+Vibrant Teal Tint:
+ "r": 0,
+    "g": 100, 
+    "b": 150 */
             form.parse(req, async function(err, fields, files) {
                 if(err){
                     reject("err")
                 }
-
-
-                let photoUrl = jsonController.getPhotoById(fields.id).url
-
+                console.log(fields);
+                console.log(await jsonController.getPhotoById(fields.id));
+                let photoUrl = (await jsonController.getPhotoById(fields.id)).url
+                photoUrl = photoUrl.substring(1)
                 switch(fields.filterType){
-                    case "resize":
+                    case "resize": 
                         if(fields.dimensions != null){
                             await sharp(photoUrl)
                                 .resize({

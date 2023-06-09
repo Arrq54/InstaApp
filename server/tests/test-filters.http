@@ -1,6 +1,6 @@
 ###
 
-GET http://localhost:3000/api/filters/metadata/168171249543119009 HTTP/1.1
+GET http://localhost:3000/api/filters/metadata/168633349332414889 HTTP/1.1
 
 ###
 
@@ -9,15 +9,16 @@ Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
 {
-  "id": 168171463366211758,
-  "filterType": "grayscale",
+  "id": "168633274889011518",
+  "filterType": "tint",
   "dimensions": {
     "width": 150,
     "height": 1000
   },
   "tint": {
     "r": 255,
-    "g": 0, 
-    "b": 0
+    "g": 230, 
+    "b": 140
     }
 }
+

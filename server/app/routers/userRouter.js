@@ -1,7 +1,9 @@
 const userController = require("../controllers/userController")
 const path = require('path')
 const fs = require('fs');
-const model = require("../model")
+const model = require("../model");
+const dbControllerUsers = require("../controllers/dbControllerUsers");
+
 const userRouter = async (req, res) => {
     res.writeHead(200, { "content-type": "application/json;charset=utf-8" })
 
@@ -55,12 +57,12 @@ const userRouter = async (req, res) => {
             })
           })
     } else if(req.url.match(/\/api\/user\/pfpbyname\/(.*?)/) && req.method == "GET"){
-        let user = model.usersArray.find(i=>{return i.name == req.url.split("/")[4]})
+        let user = await dbControllerUsers.getUserByName( req.url.split("/")[4])
         if(user == undefined){
             fs.readFile(path.resolve(__dirname, `../../uploads/profile_pictures/default.jpg`), function (error, data) {
                 res.writeHead(200, { 'Content-Type': 'image/jpeg' });
                 res.write(data);
-                res.end();
+                res.end(); 
             })
         }else{
             let id = user.id;
@@ -87,9 +89,6 @@ const userRouter = async (req, res) => {
     }else if(req.url.match(/\/api\/user\/getBioByName\/(.*?)/) && req.method == "GET"){
         res.end(JSON.stringify(await userController.getBioByName(req.url.split("/")[4])))
     }
-
-
-      
 }
 
 module.exports = userRouter
