@@ -1,7 +1,7 @@
 const  dbControllerPosts= require("./controllers/dbControllerPosts");
 const dbControllerUsers = require("./controllers/dbControllerUsers");
 class Photo {
-    constructor(id, album, originalName, url, lastChange, timestamp, location) {
+    constructor(id, album, originalName, url, lastChange, timestamp, location, filter) {
         this.id = id;
         this.album = album;
         this.originalName = originalName;
@@ -15,6 +15,7 @@ class Photo {
         ]
         this.tags = []
         this.location = location
+        this.filter = filter
         dbControllerPosts.addPost(this)
     }
     async addTag(tag){

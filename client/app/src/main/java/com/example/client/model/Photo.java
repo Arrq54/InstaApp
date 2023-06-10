@@ -11,6 +11,27 @@ public class Photo {
     public ArrayList<History> history;
     public ArrayList<Tag> tags;
     public LocationForPhoto location;
+    public String filter;
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+    public Photo(String id, String album, String originalName, String url, String lastChange, ArrayList<History> history, ArrayList<Tag> tags, LocationForPhoto location, String filter) {
+        this.id = id;
+        this.album = album;
+        this.originalName = originalName;
+        this.url = url;
+        this.lastChange = lastChange;
+        this.history = history;
+        this.tags = tags;
+        this.location = location;
+        this.filter = filter;
+    }
 
     public LocationForPhoto getLocation() {
         return location;
@@ -20,16 +41,6 @@ public class Photo {
         this.location = location;
     }
 
-    public Photo(String id, String album, String originalName, String url, String lastChange, ArrayList<History> history, ArrayList<Tag> tags, LocationForPhoto location) {
-        this.id = id;
-        this.album = album;
-        this.originalName = originalName;
-        this.url = url;
-        this.lastChange = lastChange;
-        this.history = history;
-        this.tags = tags;
-        this.location = location;
-    }
 
     public String getId() {
         return id;
@@ -98,6 +109,7 @@ public class Photo {
                 ", history=" + history +
                 ", tags=" + tags +
                 ", location=" + location +
+                ", filter='" + filter + '\'' +
                 '}';
     }
 }

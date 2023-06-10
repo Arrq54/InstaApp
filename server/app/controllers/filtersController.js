@@ -21,7 +21,38 @@ module.exports = {
                 resolve(err.mesage)
             }
         }) 
-    }, 
+    },
+    filters: async(url, filter)=>{
+        return new Promise(async (resolve, reject) => {
+         
+            let tint = {}
+            if(filter == "retro"){
+                tint.r = 200;
+                tint.g = 160;
+                tint.b = 100
+            }else if(filter == "grayscale"){
+                let buffer = await sharp(url).grayscale().toBuffer()
+                await sharp(buffer).toFile(url.slice(0,-4) + ".jpg");
+                return;
+            }else if(filter == "pastelpink"){
+                tint.r = 255;
+                tint.g = 180;
+                tint.b = 200
+            }else if(filter == "goldenhour"){
+                tint.r = 255;
+                tint.g = 190;
+                tint.b = 100
+            }else if(filter == "cinematic"){
+                tint.r = 60;
+                tint.g = 30;
+                tint.b = 90
+            }
+            let buffer = await sharp(url).tint(tint).toBuffer()
+
+            await sharp(buffer).toFile(url.slice(0,-4) + ".jpg");
+
+        })
+    },
     handleFilter: async (req)=>{
         return new Promise(async (resolve, reject) => {
 
@@ -46,7 +77,11 @@ retro
     }
  * 
  */
-
+/**niebieskie
+ *  "r": 140,
+    "g": 170, 
+    "b": 210
+ */
 
 /*
 Vibrant Teal Tint:

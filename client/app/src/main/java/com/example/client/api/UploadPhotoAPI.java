@@ -19,7 +19,8 @@ public interface UploadPhotoAPI {
             @Part("album") RequestBody album,
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file,
-            @Part("location")LocationForPhoto location
+            @Part("location")LocationForPhoto location,
+            @Part("filter")RequestBody filter
             );
 
 }

@@ -8,4 +8,5 @@ public class Imager {
     public static Uri uri;
     public static PostType type;
     public static String description;
+    public static String filter= "";
 }

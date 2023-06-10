@@ -2,7 +2,8 @@ const jsonController = require("../controllers/jsonController.js")
 const fileController = require("../controllers/fileController.js")
 const fs = require('fs');
 const path = require('path')
-const model = require("../model.js")
+const model = require("../model.js");
+const { log } = require("console");
 const imageRouter = async (req, res) => {
     res.writeHead(200, { "content-type": "application/json;charset=utf-8" })
 
@@ -16,9 +17,8 @@ const imageRouter = async (req, res) => {
     }else if(req.url.match(/\/api\/photos\/getfile\/([0-9]+)/) && req.method == "GET"){
         
         let photo = await jsonController.getPhotoById(req.url.split("/")[4])
- 
-
-        console.log(photo);
+        
+        
         let type = "image/jpeg";
         if(photo.url.split(".")[1] == "mp4"){type = "video/mp4"}
         fs.readFile(path.resolve(__dirname, `../..${photo.url}`), function (error, data) {

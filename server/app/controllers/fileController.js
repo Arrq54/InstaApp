@@ -8,6 +8,7 @@ module.exports = {
         const form = formidable({ multiples: true });
             return new Promise((resolve, reject) => {
                 form.parse(req, (err, fields, files) => {
+
                     console.log(fields);
                     //CREATE ALBUM IF NOT EXISTS
                     let dir = `./uploads/${fields.album}`
@@ -46,10 +47,14 @@ module.exports = {
                                             location: {
                                                 id: "",
                                                 name: ""
-                                            }
+                                            },
+                                            filter: ""
                                         }
                                         if(fields.location != null){
                                             obj.location = JSON.parse(fields.location)
+                                        }
+                                        if(fields.filter != null){
+                                            obj.filter = fields.filter
                                         }
                                         resolve(obj)
                                     }

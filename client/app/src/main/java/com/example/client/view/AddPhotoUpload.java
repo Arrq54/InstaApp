@@ -77,6 +77,9 @@ public class AddPhotoUpload extends Fragment {
             addPhotoUploadBinding.imgToUpload.setVisibility(ImageView.GONE);
 
 
+            addPhotoUploadBinding.filters.setEnabled(false);
+
+
 
 //            vv.setVideoPath(Imager.uri.getPath());
             String id = Imager.uri.getPath().split("/")[Imager.uri.getPath().split("/").length - 1];
@@ -174,10 +177,13 @@ public class AddPhotoUpload extends Fragment {
                 MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), fileRequest);
                 RequestBody album = RequestBody.create(MultipartBody.FORM, UserData.getUsername());
                 RequestBody description = RequestBody.create(MultipartBody.FORM, addPhotoUploadBinding.postDescription.getText().toString());
+                RequestBody filter = RequestBody.create(MultipartBody.FORM, Imager.filter);
+
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(IpAddress.ip)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
+
 
                 UploadPhotoAPI uploadPhotoAPI = retrofit.create(UploadPhotoAPI.class);
 
@@ -185,10 +191,12 @@ public class AddPhotoUpload extends Fragment {
 
 
 
-                Call<Photo> call = uploadPhotoAPI.sendImage(album, description, body, location);
+                Call<Photo> call = uploadPhotoAPI.sendImage(album, description, body,location,  filter);
+
                 call.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
+
                         Log.d("logdev", "response");
                         uploadTagsForPhoto(response.body().getId());
                     }
@@ -211,35 +219,15 @@ public class AddPhotoUpload extends Fragment {
             Intent intent = new Intent(getActivity(), MapActivity.class);
             startActivity(intent);
         });
+        if(Imager.filter != ""){
+            addPhotoUploadBinding.filters.setText("Change filter");
+        }
 
 
 
 
         addPhotoUploadBinding.filters.setOnClickListener(v->{
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Pick filter for your photo").setPositiveButton("ok",null);
-
-            LinearLayout body = new LinearLayout(getContext());
-            body.setOrientation(LinearLayout.VERTICAL);
-            String[] filters = new String[]{"Retro 1", "Retro 2", "Retro 3", "Blue", "Vintage cos tam"};
-
-
-            for(String filter:filters){
-                TextView tv = new TextView(getContext());
-
-
-
-                tv.setText(filter);
-                tv.setOnClickListener(x->{
-
-                });
-                body.addView(tv);
-            }
-            builder.setView(body);
-            AlertDialog alert = builder.create();
-
-            alert.getWindow().getAttributes().windowAnimations = R.style.FilterDialogAnimation;
-            alert.show();
+            ((MainActivity)getActivity()).setFiltersForPhoto();
         });
 
 

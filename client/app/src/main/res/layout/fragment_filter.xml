@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.FilterFragment"
+    android:layout_marginTop="48dp"
+    android:paddingBottom="60dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Select filter"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:fontFamily="@font/nunitosans_bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:elevation="8dp"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical"
+                    android:id="@+id/none">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:scaleType="centerCrop"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/filter_none"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:text="None"
+                        android:fontFamily="@font/nunitosans_regular"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:elevation="8dp"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:id="@+id/retro">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/filter_retro3"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Retro"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:elevation="8dp"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:id="@+id/grayscale">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/filter_grayscale"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Grayscale"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:elevation="8dp"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:id="@+id/pastelpink">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/filter_pastel_pink"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Pastel Pink"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:elevation="8dp"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:id="@+id/cinematic">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/filter_cinematic"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Cinematic"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:elevation="8dp"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:id="@+id/goldenhour">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/filter_golden_hour"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="Golden hour"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </ScrollView>
+</FrameLayout>
+
+</layout>

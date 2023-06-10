@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private CameraFragment cameraFragment;
     private  AtomicReference<MenuItem> previouslySelected;
     private EditProfileFragment editProfileFragment;
+    private FilterFragment filterFragment;
     private String[] REQUIRED_PERMISSIONS = new String[]{
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.READ_EXTERNAL_STORAGE",
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         postFragment = new PostFragment();
         editProfileFragment = new EditProfileFragment();
         cameraFragment = new CameraFragment();
+        filterFragment = new FilterFragment();
         replaceFragment(homeFragment, "home");
 
 
@@ -139,14 +141,6 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             switch(id){
-//                case R.id.thememode:
-//                    if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-//                    }else{
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//                    }
-
-//                    break;
                 case R.id.editprofile:
                     replaceFragment(editProfileFragment, "editprofile");
                     break;
@@ -264,6 +258,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.root, tagsForPhoto, "tagsforphoto")
+                .commit();
+    }
+
+    public void setFiltersForPhoto(){
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.root, filterFragment, "filters")
                 .commit();
     }
 

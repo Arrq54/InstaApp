@@ -5,6 +5,8 @@ const fs = require('fs');
 const tagsController = require("./tagsController");
 const path = require('path');
 const dbControllerPosts = require("./dbControllerPosts.js");
+const { log } = require("console");
+const filtersController = require("./filtersController.js");
 const  generateId = ()=>{
     return String(Date.now()) +Math.floor(Math.random() * 20001);
 }
@@ -17,13 +19,22 @@ module.exports = {
             });
           });
           return "";
-    },
+    }, 
 
-    createNewPhoto: (data)=>{
-        //new photo
-        // console.log("Uploaded:" + data.url);
-        console.log(data);
-        return new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp, data.location)
+    createNewPhoto: async (data)=>{
+
+        return new Promise(async (resolve, reject)=>{
+            let photo =  new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp, data.location, data.filter)
+        
+            if(data.filter !=""){
+                await filtersController.filters(photo.url.substring(1), data.filter)
+            }
+    
+    
+    
+            resolve(photo)
+        })
+       
     },
     getAllPhotos: async ()=>{
         return  await dbControllerPosts.getAllPosts();
