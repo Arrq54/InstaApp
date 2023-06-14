@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.client.api.GetPhotosAPI;
 import com.example.client.api.UsersAPI;
@@ -43,9 +44,21 @@ public class RegisterActivity extends AppCompatActivity {
         registerBinding.login.setOnClickListener(v->{
             finish();
         });
-
+        String invalidCharacters = "\\\\/:*?\\\"<>| ";
         registerBinding.registerButton.setOnClickListener(v->{
-            if(registerBinding.usernameText.getText().length()>0 && registerBinding.lastNameText.getText().length()>0 &&registerBinding.emailText.getText().length()>0 &&registerBinding.passwordText.getText().length()>0){
+            boolean flag = true;
+        
+            for(char i: registerBinding.usernameText.getText().toString().toCharArray()){
+                if(invalidCharacters.contains(String.valueOf(i))){
+                    flag = false;
+                }
+            }
+            if(!flag){
+                Toast.makeText(this, "Name contains illegal characters", Toast.LENGTH_SHORT).show();
+            }
+            
+            
+            if(flag && registerBinding.usernameText.getText().length()>0 && registerBinding.lastNameText.getText().length()>0 &&registerBinding.emailText.getText().length()>0 &&registerBinding.passwordText.getText().length()>0){
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(IpAddress.ip)
                         .addConverterFactory(GsonConverterFactory.create())
@@ -63,10 +76,16 @@ public class RegisterActivity extends AppCompatActivity {
                 call.enqueue(new Callback<Token>() {
                     @Override
                     public void onResponse(Call<Token> call, Response<Token> response) {
-                        Intent intent = new Intent(RegisterActivity.this, ConfirmAccountActivity.class);
-                        intent.putExtra("token", response.body().getToken());
-                        startActivity(intent);
-                        finish();
+                        if(response.body().getToken() == "User with this name already exists"){
+                            Toast.makeText(RegisterActivity.this, "User with this name already exists", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Intent intent = new Intent(RegisterActivity.this, ConfirmAccountActivity.class);
+                            intent.putExtra("token", response.body().getToken());
+
+                            startActivity(intent);
+                            finish();
+                        }
+
                     }
 
                     @Override

@@ -8,7 +8,6 @@ module.exports = {
         const result = await collection.insertOne(post);
     },
     getUserById: async (id)=>{
-        console.log("Get user by id: "+ id );
         return new Promise(async (resolve, reject)=>{
             let db = await dbConnect.connect();
             const collection = await db.collection("users");
@@ -32,6 +31,19 @@ module.exports = {
             { $set: obj }
          )
     },
+    userWithNameExists: async(name)=>{
+        return new Promise(async (resolve, reject)=>{
+            let db = await dbConnect.connect();
+            const collection = await db.collection("users");
+            const items = await collection.findOne({name: name})
+            if(items==null){
+                resolve({exists: false})
+            }else{
+                resolve({exists: true})
+            }
+        })
+       
+    }
     
 
 }

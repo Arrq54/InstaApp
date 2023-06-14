@@ -36,7 +36,7 @@ const imageRouter = async (req, res) => {
 
         if(upload != false){
            
-            res.end(JSON.stringify(jsonController.createNewPhoto(upload)), null, 5)
+            res.end(JSON.stringify(await jsonController.createNewPhoto(upload)), null, 5)
         }
 
     }else if(req.url.match(/\/api\/photos\/([0-9]+)/) && req.method == "GET"){

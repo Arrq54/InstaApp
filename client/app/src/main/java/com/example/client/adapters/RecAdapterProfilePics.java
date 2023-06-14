@@ -48,7 +48,6 @@ public class RecAdapterProfilePics extends RecyclerView.Adapter<RecAdapterProfil
             ClickedPostData.setDescription(photo.getLastChange());
             ClickedPostData.setUsername(photo.getAlbum());
             ClickedPostData.setTags(photo.getTags());
-            Log.d("logdev", photo.getLocation().toString());
             ClickedPostData.setLocation(photo.getLocation());
             ((MainActivity)context).setPost();
         });

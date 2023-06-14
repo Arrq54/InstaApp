@@ -14,7 +14,7 @@ http.createServer(async (req, res) => {
        await imageRouter(req, res)
     }
 
-    //tags
+    //tags 
 
     else if (req.url.search("/api/tags") != -1) {
        await tagsRouter(req, res)
@@ -24,7 +24,7 @@ http.createServer(async (req, res) => {
    else if (req.url.search("/api/filters") != -1) {
       await filtersRouter(req, res)
    }else if (req.url.search("/api/user") != -1) {
-      await userRouter(req, res)
+      await userRouter(req, res) 
    }
 
 })

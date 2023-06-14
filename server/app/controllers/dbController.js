@@ -11,7 +11,6 @@ module.exports = {
         }) 
        
     }, getPostById: async (id)=>{
-        console.log("Get post by id: "+ id );
         return new Promise(async (resolve, reject)=>{
             let db = await dbConnect.connect();
             const collection = await db.collection("posts");

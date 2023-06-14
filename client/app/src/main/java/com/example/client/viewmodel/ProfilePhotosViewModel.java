@@ -44,9 +44,6 @@ public class ProfilePhotosViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<List<Photo>> call, Throwable t) {
-                Log.d("logdev", "==========================");
-                Log.d("logdev", t.toString());
-                Log.d("logdev", "==========================");
                 photosList.setValue(new ArrayList<>());
             }
         });

@@ -16,24 +16,30 @@ module.exports = {
         return new Promise((resolve, reject) => {
             const ip = Object.values(require('os').networkInterfaces()).reduce((r, list) => r.concat(list.reduce((rr, i) => rr.concat(i.family === 'IPv4' && !i.internal && i.address || []), [])), [])[0]
             form.parse(req, async function(err, fields, files) {
-                if(fields.name && fields.lastName && fields.email && fields.password){
-                   fields.password = await bcrypt.hash(fields.password, 10);
+                let flag = await dbControllerUsers.userWithNameExists(fields.name);
+                if(flag.exists == false){
+                    if(fields.name && fields.lastName && fields.email && fields.password){
+                        fields.password = await bcrypt.hash(fields.password, 10);
+                     }
+                     let id = generateId();
+                     let token = await jwt.sign(
+                         {
+                             id: id
+                         },
+                         process.env.JWT_KEY, // powinno być w .env
+                         {
+                             expiresIn: "60m" // "1m", "1d", "24h"
+                         }
+                     );
+         
+                     new model.User(id, fields.name, fields.lastName, fields.email, false, fields.password, "")
+     
+     
+                     resolve({token: `http://${ip}:${process.env.APP_PORT}/api/user/confirm/${token}`})
+                }else{
+                    resolve({token: "  "})
                 }
-                let id = generateId();
-                let token = await jwt.sign(
-                    {
-                        id: id
-                    },
-                    process.env.JWT_KEY, // powinno być w .env
-                    {
-                        expiresIn: "60m" // "1m", "1d", "24h"
-                    }
-                );
-    
-                new model.User(id, fields.name, fields.lastName, fields.email, false, fields.password, "")
-
-
-                resolve({token: `http://${ip}:${process.env.APP_PORT}/api/user/confirm/${token}`})
+               
             })
 
         })
@@ -47,7 +53,6 @@ module.exports = {
 
                 let user = await dbControllerUsers.getUserById(decoded.id);
                 user.confimred = true;
-                console.log(user);
 
                 await dbControllerUsers.updateUser(decoded.id, user)
                 
@@ -108,9 +113,6 @@ module.exports = {
                     let id = decoded.id;
 
                     let user = await dbControllerUsers.getUserById(id);
-                    
-
-                    console.log(user);
 
                     if(user != null){
                         resolve({
@@ -127,7 +129,6 @@ module.exports = {
         })
     },
     update: (req)=>{
-        console.log("POST - USER PROFILE UPDATE");
         const form = formidable({ multiples: true });
             return new Promise((resolve, reject) => {
                 form.parse(req, async (err, fields, files) => {
@@ -198,7 +199,6 @@ module.exports = {
                 })
             })
     },updateNoPfp: (req)=>{
-        console.log("POST - USER PROFILE UPDATE, NO PFP");
 
         const form = formidable({ multiples: true });
             return new Promise((resolve, reject) => {

@@ -28,7 +28,7 @@ module.exports = {
             let tint = {}
             if(filter == "retro"){
                 tint.r = 200;
-                tint.g = 160;
+                tint.g = 160; 
                 tint.b = 100
             }else if(filter == "grayscale"){
                 let buffer = await sharp(url).grayscale().toBuffer()
@@ -50,7 +50,8 @@ module.exports = {
             let buffer = await sharp(url).tint(tint).toBuffer()
 
             await sharp(buffer).toFile(url.slice(0,-4) + ".jpg");
-
+            console.log("filter added");
+            resolve({})
         })
     },
     handleFilter: async (req)=>{
@@ -92,8 +93,6 @@ Vibrant Teal Tint:
                 if(err){
                     reject("err")
                 }
-                console.log(fields);
-                console.log(await jsonController.getPhotoById(fields.id));
                 let photoUrl = (await jsonController.getPhotoById(fields.id)).url
                 photoUrl = photoUrl.substring(1)
                 switch(fields.filterType){

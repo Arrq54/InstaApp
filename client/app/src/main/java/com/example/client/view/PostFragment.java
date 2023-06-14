@@ -18,11 +18,13 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.client.R;
 import com.example.client.databinding.FragmentPostBinding;
 import com.example.client.model.ClickedPostData;
 import com.example.client.model.IpAddress;
 import com.example.client.model.PostType;
+import com.example.client.model.SearchListClickedItem;
 import com.example.client.model.Tag;
 import com.google.android.material.chip.Chip;
 
@@ -62,13 +64,6 @@ public class PostFragment extends Fragment {
             postBinding.photo.setVisibility(ImageView.GONE);
             postBinding.video.setVisibility(VideoView.VISIBLE);
 
-
-
-//            MediaController mediaController = new MediaController(getContext());
-//            postBinding.video.setMediaController(mediaController);
-//            mediaController.setAnchorView(postBinding.video);
-
-            // URL of the image to be loaded
             String imageUrl = ClickedPostData.getPostURL();
 
 
@@ -79,7 +74,6 @@ public class PostFragment extends Fragment {
             player.setMediaItem(mediaItem);
 
             player.prepare();
-            player.setRepeatMode(player.REPEAT_MODE_ALL);
 
             player.play();
 
@@ -91,10 +85,16 @@ public class PostFragment extends Fragment {
         }
 
 
-
-        Glide.with(getContext())
-                .load(IpAddress.ip + "/api/user/pfpbyname/"+ ClickedPostData.getUsername())
+        Glide.with(getActivity()).load(IpAddress.ip + "/api/user/pfpbyname/"+ClickedPostData.getUsername())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(postBinding.pfp);
+
+
+        postBinding.pfp.setOnClickListener(v->{
+            SearchListClickedItem.username = ClickedPostData.getUsername();
+            ((MainActivity)getContext()).setUseProfile();
+        });
+
 
 
         for(Tag tag: tags){

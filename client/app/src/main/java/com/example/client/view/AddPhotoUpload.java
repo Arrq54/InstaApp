@@ -101,12 +101,8 @@ public class AddPhotoUpload extends Fragment {
                 cursor.close();
             }else{
                 String parentPath = Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_DCIM).getPath() ;
-                Log.d("logdev", "----------------------");
-                Log.d("logdev", parentPath);
-                Log.d("logdev", "----------------------");
                 videoPath = Imager.uri.getPath();
                 videoPath = videoPath.substring(5);
-                Log.d("logdev", videoPath);
                 flag = true;
             }
 
@@ -196,14 +192,25 @@ public class AddPhotoUpload extends Fragment {
                 call.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
+                        Log.d("logdev", String.valueOf(UserData.getListofTags().size()));
+                        if(UserData.getListofTags().size() == 0){
+                            dialog.dismiss();
+                            UserData.setListofTags(new ArrayList<>());
 
-                        Log.d("logdev", "response");
-                        uploadTagsForPhoto(response.body().getId());
+                            ((MainActivity)getActivity()).setHomeFragment();
+                        }else{
+                            uploadTagsForPhoto(response.body().getId());
+                        }
+
                     }
 
                     @Override
                     public void onFailure(Call<Photo> call, Throwable t) {
                         Log.d("logdev", t.toString());
+                        dialog.dismiss();
+                        UserData.setListofTags(new ArrayList<>());
+
+                        ((MainActivity)getActivity()).setHomeFragment();
                     }
                 });
             }
@@ -274,18 +281,23 @@ public class AddPhotoUpload extends Fragment {
                     arrayOfTagsId[finalCounter[0]] = i;
                     finalCounter[0]++;
                 }
+
                 Call<Photo> setTagsForPhotoById = tagsAPI.setTagsForPhoto(id, arrayOfTagsId);
 
                 setTagsForPhotoById.enqueue(new Callback<Photo>() {
                     @Override
                     public void onResponse(Call<Photo> call, Response<Photo> response) {
                         dialog.dismiss();
+                        UserData.setListofTags(new ArrayList<>());
                         ((MainActivity)getActivity()).setHomeFragment();
                     }
 
                     @Override
                     public void onFailure(Call<Photo> call, Throwable t) {
+                        dialog.dismiss();
+                        UserData.setListofTags(new ArrayList<>());
 
+                        ((MainActivity)getActivity()).setHomeFragment();
                     }
                 });
 
@@ -294,6 +306,10 @@ public class AddPhotoUpload extends Fragment {
 
             @Override
             public void onFailure(Call<TagUploadResponse> call, Throwable t) {
+                dialog.dismiss();
+                UserData.setListofTags(new ArrayList<>());
+
+                ((MainActivity)getActivity()).setHomeFragment();
                 Log.d("logdev", t.toString());
             }
         });

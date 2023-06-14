@@ -6,80 +6,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.LoginActivity">
+    tools:context=".view.LoginActivity"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="40dp"
+        android:gravity="end">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/changeIp"
+            android:src="@drawable/settings"
+            android:scaleType="fitXY"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-        <TextView
+        android:layout_gravity="center">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="LOGIN"
-            android:textSize="40dp"
-            android:textAlignment="center"
-            android:fontFamily="@font/nunitosans_bold"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:boxBackgroundMode="outline"
-            app:counterEnabled="true"
-            app:counterMaxLength="20">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Username"
-                android:id="@+id/usernameText"
-                android:textAlignment="center"
-                android:fontFamily="@font/nunitosans_regular"
-                android:maxLength="20" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:boxBackgroundMode="outline"
-            app:counterEnabled="true"
-            app:counterMaxLength="20">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:id="@+id/passwordText"
-                android:textAlignment="center"
-                android:fontFamily="@font/nunitosans_regular"
-                android:maxLength="20" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:text="LOGIN"
-            android:id="@+id/loginButton"
-            app:cornerRadius="15dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="I don't have an account yet"
-            android:textAlignment="center"
-            android:layout_marginTop="10dp"
+            android:layout_height="400dp"
             android:gravity="center"
-            android:id="@+id/register"
-            android:fontFamily="@font/nunitosans_bold"
-            android:textColor="@color/link"/>
+            android:layout_gravity="center"
+
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:text="LOGIN"
+                android:textSize="40dp"
+                android:textAlignment="center"
+                android:fontFamily="@font/nunitosans_bold"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:boxBackgroundMode="outline"
+                app:counterEnabled="true"
+                app:counterMaxLength="20">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    android:id="@+id/usernameText"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:boxBackgroundMode="outline"
+                app:counterEnabled="true"
+                app:counterMaxLength="20">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:id="@+id/passwordText"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/nunitosans_regular"
+                    android:maxLength="20" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="LOGIN"
+                android:id="@+id/loginButton"
+                app:cornerRadius="15dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="I don't have an account yet"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:id="@+id/register"
+                android:fontFamily="@font/nunitosans_bold"
+                android:textColor="@color/link"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
 
 
 </LinearLayout>

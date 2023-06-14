@@ -33,7 +33,6 @@ public class HomePageViewModel extends ViewModel {
         call.enqueue(new Callback<List<Photo>>() {
             @Override
             public void onResponse(Call<List<Photo>> call, Response<List<Photo>> response) {
-                Log.d("logdev", response.body().toString());
                 photosList.setValue(response.body());
             }
 

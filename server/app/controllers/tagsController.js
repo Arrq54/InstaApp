@@ -16,7 +16,6 @@ module.exports = {
                 dataFromFile.map(i=>{
                    new model.Tag(i.id, i.name, i.popularity)
                 })
-                // console.log(model.tagsArray);
                 resolve(true)
             }});
         })
@@ -56,19 +55,12 @@ module.exports = {
         }
         return new Promise((resolve, reject) => {
             let ids = []
-
             formidable({multiples: true}).parse(req, function(err, fields, files){
-                
-
-
-                // console.log(fields);
-               
                 if(fields.tags != undefined){
                     if(!Array.isArray(fields.tags)){
                         fields.tags = [fields.tags]
                     }
                     fields.tags.map(i=>{
-                        console.log(i);
                         if(model.tagsArray.find(z=>{return z.name == i}) == null){
                             let newTag = new model.Tag(model.tagsArray.length, i, 1)
                             ids.push(newTag.id)
@@ -109,7 +101,6 @@ module.exports = {
    },
     async getTagById(id){
         return new Promise(async (resolve, reject)=>{
-            console.log("Get tags");
             await this.checkIfInit()
             let found = model.tagsArray.find(i=>{
                 return i.id == id 

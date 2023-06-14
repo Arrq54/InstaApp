@@ -38,7 +38,6 @@ const userRouter = async (req, res) => {
     }
     
     else if(req.url.match(/\/api\/user\/pfp\/([0-9]+)/) && req.method == "GET"){
-        console.log(req.url.split("/")[4]);
         let path2 = path.resolve(__dirname, `../../uploads/profile_pictures/${req.url.split("/")[4]}.jpg`)
 
         fs.access(path2, fs.F_OK, (err) => {
@@ -67,7 +66,6 @@ const userRouter = async (req, res) => {
         }else{
             let id = user.id;
             let path2 = path.resolve(__dirname, `../../uploads/profile_pictures/${id}.jpg`)
-            console.log(path2);
             fs.access(path2, fs.F_OK, (err) => {
                 if (err) {
                     fs.readFile(path.resolve(__dirname, `../../uploads/profile_pictures/default.jpg`), function (error, data) {

@@ -25,18 +25,16 @@ module.exports = {
 
         return new Promise(async (resolve, reject)=>{
             let photo =  new model.Photo(generateId(), data.album, data.originalName, data.url, data.description, data.timestamp, data.location, data.filter)
-        
-            if(data.filter !=""){
+            if(data.filter != ""){
                 await filtersController.filters(photo.url.substring(1), data.filter)
+                resolve(photo)
+            }else{
+                resolve(photo)  
             }
-    
-    
-    
-            resolve(photo)
         })
-       
-    },
-    getAllPhotos: async ()=>{
+        
+    },    
+    getAllPhotos: async ()=>{ 
         return  await dbControllerPosts.getAllPosts();
     },
     getPhotoById: async(id)=>{
@@ -85,8 +83,11 @@ module.exports = {
          
         return new Promise(async (resolve, reject) => {
             form.parse(req, async function(err, fields, files) {
-                let photo = await dbControllerPosts.getPostById(fields.photoid)
                 console.log(fields);
+                let photo = await dbControllerPosts.getPostById(fields.photoid)
+                console.log("==========PHOTO==========");
+                console.log(photo);
+                console.log("=========================");
                 if(photo != null && photo.tags.length == 0){
                     if(fields.ids != undefined){
                         if(!Array.isArray(fields.ids)){
@@ -94,9 +95,7 @@ module.exports = {
                         }
                         let newTags = []
                         
-                        fields.ids.map(async (i)=>{ 
-                         
-                                // console.log(await tagsController.getTagById(i));
+                        fields.ids.map(async (i)=>{
                             let tagToAdd = await tagsController.getTagById(i);
                             console.log(tagToAdd);
                             newTags.push(tagToAdd);
@@ -126,7 +125,6 @@ module.exports = {
     deleteTagFromPhoto: async (req)=>{
         return new Promise((resolve, reject) => {
             form.parse(req, async function(err, fields, files) {
-                // console.log(fields);
                 let photo= await dbControllerPosts.getPostById(fields.photoid)
                 if(photo){
                     photo.setTags(photo.tags.filter(i=>{return i.id !=fields.tagid }))

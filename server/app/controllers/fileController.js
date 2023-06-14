@@ -9,7 +9,6 @@ module.exports = {
             return new Promise((resolve, reject) => {
                 form.parse(req, (err, fields, files) => {
 
-                    console.log(fields);
                     //CREATE ALBUM IF NOT EXISTS
                     let dir = `./uploads/${fields.album}`
                     if (!fs.existsSync(dir)){
